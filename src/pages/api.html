@@ -1,0 +1,25 @@
+{% extends '_layout.html' %}
+{% import '../components/nav-main/nav-main.html' as navMain %}
+{% import '../components/nav-aside/nav-aside.html' as navAside %}
+
+{% block metaTitle %} — api documentation{% endblock %}
+
+{%- block header %}
+    <header class="layout__header">
+        {% include '../components/header-logo/header-logo.html' %}
+        {{ navMain.nav('api', 'main') }}
+    </header>
+{% endblock -%}
+
+{%- block layoutExtraClass %}layout__container_has-aside{% endblock -%}
+
+{%- block main %}
+    <main class="layout__main">
+        <article>
+            {{ markdown(readme.api) }}
+        </article>
+    </main>
+    <aside class="layout__aside">
+        {{ navAside.nav(headers.api) }}
+    </aside>
+{% endblock -%}

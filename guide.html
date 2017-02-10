@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>WbTstr.Net  — Guide</title>
+    <meta name="description" content="WbTstr.Net is easy Test Automation for .Net">
+    <meta name="keywords" content="WbTstr.Net, Webdriver, Selenium, .Net, C#, Test Automation">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Biryani:400,800|Ubuntu+Mono" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/all.css">
+
+    <!--[if lt IE 9]><script>'article main footer header nav figure aside'.replace(/\w+/g,function(n){document.createElement(n)})</script><![endif]-->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/static/img/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/static/img/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/static/img/favicons/manifest.json">
+<link rel="mask-icon" href="/static/img/favicons/safari-pinned-tab.svg" color="#7b6e00">
+<meta name="theme-color" content="#ffffff">
+
+</head>
+<body>
+    <div class="layout__container layout__container_has-aside">
+        
+    <header class="layout__header">
+        <figure class="header-logo">
+    <a href="/"><img src="/static/img/logo-line-dark.svg" alt="WbTstr.Net logo"></a>
+</figure>
+
+        
+    
+    
+    
+    <nav class="nav-main">
+        <ol>
+            <li><a href="/" class="nav-main__item">Home</a></li>
+            <li><a href="/guide.html" class="nav-main__item nav-main__item_is-active">Guide</a></li>
+            <li><a href="/api.html" class="nav-main__item">API</a></li>
+            <li><a href="https://github.com/mirabeau-nl/WbTstr.Net/releases" class="nav-main__item" target="_blank">Releases</a></li>
+            <li><a href="https://github.com/mirabeau-nl/WbTstr.Net" class="nav-main__item nav-main__item_github" title="Github" target="_blank"></a></li>
+        </ol>
+    </nav>
+
+    </header>
+        
+    <main class="layout__main">
+        <article class="layout__detail__content">
+            <!-- start -->
+<h2 id="guide">Guide</h2>
+<h3 id="install">Install</h3>
+<p>There are 2 ways of installing WbTstr.Net. 
+Unless you would like a specific project structure we advice to start with the Visual Studio extension.</p>
+<h4 id="use-the-visual-studio-extension">Use the Visual Studio extension</h4>
+<p>The quickest way of getting started with WbTstr.Net is by using the Visual Studio extension.
+It helps you with a Visual Studio project which has everything in place to get started with testing right away.</p>
+<p>The easiest way to get started with WbTstr.Net is to install our Visual Studio 2013 Extension from the Visual Studio Gallery.</p>
+<ol>
+<li>Download and install the extension from the <a href="https://marketplace.visualstudio.com/items?itemName=Mirabeaunl.WbTstrNet">Visual Studio Market Place</a></li>
+<li>Simply create a new project of the type &quot;Mirabeau WbTstr.Net&quot;</li>
+<li>Build the project to retrieve the dependencies</li>
+</ol>
+<h4 id="use-the-nuget-package">Use the NuGet package</h4>
+<p>If you would like to fit WbTstr.Net into your own project structure that&#39;s possible as well.
+Just download the NuGet package.</p>
+<pre><code class="lang-csharp">Install-Package WbTstr.Net.SeleniumWebDriver
+</code></pre>
+<h3 id="example-test">Example test</h3>
+<pre><code class="lang-csharp">    <span class="hljs-keyword">namespace</span> <span class="hljs-title">MyTest.Examples</span> 
+    {
+      <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyFirstTest</span> : <span class="hljs-title">FluentTest</span>
+      {
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyFirstTest</span>(<span class="hljs-params"></span>)
+        </span>{
+          WbTstr.Configure()
+          .PreferedBrowser().IsChrome();
+          WbTstr.Bootstrap();
+        }
+
+        [TestCase]
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Test1</span>(<span class="hljs-params"></span>)
+        </span>{
+           I.Open(<span class="hljs-string">"http://www.mirabeau.nl"</span>);
+           I.Assert.Exists(<span class="hljs-string">"H1"</span>);
+        }
+      }  
+    }
+</code></pre>
+<!-- end -->
+        </article>
+    </main>
+    <aside class="layout__aside">
+        
+    <nav class="nav-aside">
+        <ol>
+            <li class="nav-aside_lvl1">
+                    <a href="#guide">Guide</a>
+                </li>
+            <li class="nav-aside_lvl2">
+                    <a href="#install">Install</a>
+                </li>
+            <li class="nav-aside_lvl3">
+                    <a href="#use-the-visual-studio-extension">Use the Visual Studio extension</a>
+                </li>
+            <li class="nav-aside_lvl3">
+                    <a href="#use-the-nuget-package">Use the NuGet package</a>
+                </li>
+            <li class="nav-aside_lvl2">
+                    <a href="#example-test">Example test</a>
+                </li>
+            
+        </ol>
+    </nav>
+
+    </aside>
+
+    </div>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-90992251-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+</body>
+</html>

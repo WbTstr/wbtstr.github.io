@@ -1,0 +1,104 @@
+$layout-bp-xs: 30em;    //    480px
+$layout-bp-s:  37.5em;  //    600px
+$layout-bp-m:  65em;    // ± 1024px
+
+$layout-main-content-width: 35em;
+$layout-main-content-bp: 40em;
+
+$header-main-bp: 45em;
+
+$aside-width:  13em;
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+article,
+main,
+footer,
+header,
+nav,
+figure,
+aside {
+    display: block;
+}
+
+.layout__container,
+.layout__header,
+.layout__main,
+.layout__aside {
+    box-sizing: border-box;
+}
+
+.layout__container {
+    padding: 0 .625em;
+    @media (min-width: $layout-bp-xs) {
+        padding: 0 1.25em;
+    }
+    @media (min-width: $layout-bp-m) {
+        max-width: $layout-bp-m;
+        margin: 0 auto;
+    }
+}
+
+.layout__main,
+.layout__aside {
+    padding: 0 .3125em;
+    @media (min-width: $layout-bp-xs) {
+        padding: 0 1.25em .3125em;
+    }
+    margin-bottom: 1.25em;
+}
+
+.layout__main_content {
+    max-width: $layout-main-content-width;
+    margin-left: auto;
+    margin-right: auto;
+    @media (min-width: $layout-main-content-bp) {
+        width: $layout-main-content-width;
+    }
+}
+
+.layout__detail_content {
+    max-width: $layout-main-content-width;
+    margin-left: auto;
+    margin-right: auto;
+    @media (min-width: 0) {
+        max-width: none;
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+.layout__container_has-aside {
+    @media (min-width: $layout-bp-m) {
+        padding-left: $aside-width;
+    }
+
+    .layout__header {
+        @media (min-width: $layout-bp-m) {
+            margin-left: -($aside-width - 1em);
+        }
+    }
+    .layout__main {
+        @media (min-width: $layout-bp-xs) {
+            border: 1px solid $color-background-lighter;
+            border-radius: .125em;
+        }
+        @media (min-width: $layout-bp-m) {
+            float: right;
+        }
+    }
+}
+
+.layout__aside {
+    display: none;
+    @media screen and (min-width: $layout-bp-m) {
+        display: block;
+        float: left;
+        width: $aside-width;
+        margin-left: -$aside-width;
+    }
+}

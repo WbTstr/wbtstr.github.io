@@ -1,1 +1,7 @@
-# wbtstr.github.io
+# wbtstr.net
+
+## Build website
+
+```
+npm start
+```

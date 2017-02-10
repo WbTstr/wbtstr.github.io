@@ -1,0 +1,50 @@
+.hero {
+    position: relative;
+    top: -.3em;
+    z-index: -1;
+    margin: 0 -1.25em 3em;
+    margin: 0 calc(-50vw + 50%) 3em;
+    padding: 2em;
+    background: $color-background-light;
+    text-align: center;
+
+    .hero__logo {
+        height: 10em;
+        @media (min-width: $layout-bp-xs) {
+            height: 12.5em;
+        }
+
+        margin-bottom: 3em;
+        background: url('/static/img/logo-stacked-light.svg') center center no-repeat;
+        background-size: contain;
+    }
+
+    .hero__title {
+        margin: 0 0 1.25em;
+        padding-left: 0;
+        border-left: 0;
+        font-size: 1.375em;
+        @media (min-width: $layout-bp-xs) {
+            font-size: 2em;
+        }
+        font-weight: 300;
+        color: $color-white;
+    }
+
+    .hero__install {
+        display: inline-block;
+
+        code {
+            display: block;
+            padding: .7em .9em;
+            border: 0;
+            background: $color-background-dark;
+            font-size: .875em;
+            @media (min-width: $layout-bp-xs) {
+                font-size: 1.125em;
+            }
+            color: $color-white;
+            overflow: hidden;
+        }
+    }
+}

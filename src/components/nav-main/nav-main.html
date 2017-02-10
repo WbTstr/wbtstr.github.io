@@ -1,0 +1,14 @@
+{% macro nav(item, cn) %}
+    {% set cn1 = 'nav-' + cn + '__item' %}
+    {% set cn2 = 'nav-' + cn + '__item_is-active' %}
+    {% set cn3 = 'nav-' + cn + '__item_github' %}
+    <nav class="nav-{{ cn }}">
+        <ol>
+            <li><a href="/" class="{{ cn1 }}{% if item === 'home' %} {{ cn2 }}{% endif %}">Home</a></li>
+            <li><a href="/guide.html" class="{{ cn1 }}{% if item === 'guide' %} {{ cn2 }}{% endif %}">Guide</a></li>
+            <li><a href="/api.html" class="{{ cn1 }}{% if item === 'api' %} {{ cn2 }}{% endif %}">API</a></li>
+            <li><a href="https://github.com/mirabeau-nl/WbTstr.Net/releases" class="{{ cn1 }}" target="_blank">Releases</a></li>
+            <li><a href="https://github.com/mirabeau-nl/WbTstr.Net" class="{{ cn1 }} {{ cn3 }}" title="Github" target="_blank"></a></li>
+        </ol>
+    </nav>
+{% endmacro %}

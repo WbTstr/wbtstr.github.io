@@ -1,0 +1,19 @@
+.header-logo {
+
+    margin: .625em 0 0;
+    @media (min-width: $header-main-bp) {
+        float: left;
+    }
+
+    a[href] {
+        display: block;
+    }
+
+    img {
+        max-width: 300px;
+        border: 0;
+        @media (min-width: $layout-bp-s) {
+            width: 100%;
+        }
+    }
+}
