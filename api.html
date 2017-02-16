@@ -128,8 +128,8 @@
 <p>Anyone who has done any serious amount of automated testing will tell you that the largest challenge we all face is fragile, hard to maintain tests.</p>
 <p>To combat this, it can be useful to use <code>PageObject</code> to group your actions/expects/asserts. This gives you functional code that can be reused in any number of tests.</p>
 <p>With the new first-class <code>PageObject</code> support, we provide some simple but useful built-in functions such as <code>Go</code> and <code>Switch</code>. Also included, a validation function tied to the <code>this.At</code> property.</p>
-<p>Any time a <code>PageObject</code> navigation is triggered, or any time <code>Switch</code> is used, the included <code>At</code> functino will execute providing an easy hook to make sure all tests execute with the underlying browser and application in the same state, every time.</p>
-<p>If you have any ideas for or comments on the new <code>PageObject</code> functionality, let us know! Its a new feature and we&#39;d love some feedback.</p>
+<p>Any time a <code>PageObject</code> navigation is triggered, or any time <code>Switch</code> is used, the included <code>At</code> function will execute providing an easy hook to make sure all tests execute with the underlying browser and application in the same state, every time.</p>
+<p>If you have any ideas for or comments on the new <code>PageObject</code> functionality, let us know! It&#39;s a new feature and we&#39;d love some feedback.</p>
 <pre><code class="lang-csharp">public class HomePage : PageObject&lt;HomePage&gt;
 {
     public HomePage(FluentTest test)
