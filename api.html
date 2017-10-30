@@ -380,7 +380,7 @@ I.Wait(TimeSpan.FromMilliseconds(<span class="hljs-number">500</span>));
 <p>The condition must succeed within the time set in <code>Settings.DefaultWaitUntilTimeout</code> or the test will fail.</p>
 <p>Important Note: Most actions have implicit WaitUntil functionality built-in. Before adding, be sure your test needs it.</p>
 <pre><code class="lang-csharp"><span class="hljs-comment">// WaitUntil element exists</span>
-I.WaitUntil(() =&gt; I.Assert.Exists(<span class="hljs-string">"#searchBar"</span>)));
+I.WaitUntil(() =&gt; I.Assert.Exists(<span class="hljs-string">"#searchBar"</span>));
 
 <span class="hljs-comment">// WaitUntil element has attribute 'data-loaded'</span>
 I.WaitUntil(() =&gt;
