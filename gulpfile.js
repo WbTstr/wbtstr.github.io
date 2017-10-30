@@ -27,7 +27,7 @@ gulp.task('clean', function() {
 
 gulp.task('html', ['clean'], function(done) {
 
-    const readmeUrl = 'http://rawgit.com/mirabeau-nl/WbTstr.Net/' + VERSION + '/README.md';
+    const readmeUrl = 'http://rawgit.com/wbtstr/wbtstr.github.io/' + VERSION + '/README.md';
 	
     getRequest(readmeUrl, markdown => {
         const readme = getReadmeSections(markdown);

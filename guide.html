@@ -26,7 +26,7 @@
         
     <header class="layout__header">
         <figure class="header-logo">
-    <a href="/"><img src="/static/img/logo-line-dark.svg" alt="WbTstr.Net logo"></a>
+    <a href="/"><img src="/static/img/logo-line-dark.svg" alt="WbTstr"></a>
 </figure>
 
         
@@ -38,8 +38,8 @@
             <li><a href="/" class="nav-main__item">Home</a></li>
             <li><a href="/guide.html" class="nav-main__item nav-main__item_is-active">Guide</a></li>
             <li><a href="/api.html" class="nav-main__item">API</a></li>
-            <li><a href="https://github.com/mirabeau-nl/WbTstr.Net/releases" class="nav-main__item" target="_blank">Releases</a></li>
-            <li><a href="https://github.com/mirabeau-nl/WbTstr.Net" class="nav-main__item nav-main__item_github" title="Github" target="_blank"></a></li>
+            <li><a href="https://www.nuget.org/profiles/onnovalkering" class="nav-main__item" target="_blank">NuGet</a></li>
+            <li><a href="https://github.com/wbtstr/wbtstr" class="nav-main__item nav-main__item_github" title="Github" target="_blank"></a></li>
         </ol>
     </nav>
 
@@ -50,21 +50,9 @@
             <!-- start -->
 <h2 id="guide">Guide</h2>
 <h3 id="install">Install</h3>
-<p>There are 2 ways of installing WbTstr.Net. 
-Unless you would like a specific project structure we advise to start with the Visual Studio extension.</p>
-<h4 id="use-the-visual-studio-extension">Use the Visual Studio extension</h4>
-<p>The quickest way of getting started with WbTstr.Net is by using the Visual Studio extension.
-It helps you with a Visual Studio project which has everything in place to get started with testing right away.</p>
-<p>The easiest way to get started with WbTstr.Net is to install our Visual Studio 2013 Extension from the Visual Studio Gallery.</p>
-<ol>
-<li>Download and install the extension from the <a href="https://marketplace.visualstudio.com/items?itemName=Mirabeaunl.WbTstrNet">Visual Studio Market Place</a></li>
-<li>Simply create a new project of the type &quot;Mirabeau WbTstr.Net&quot;</li>
-<li>Build the project to retrieve the dependencies</li>
-</ol>
-<h4 id="use-the-nuget-package">Use the NuGet package</h4>
-<p>If you would like to fit WbTstr.Net into your own project structure that&#39;s possible as well.
-Just download the NuGet package.</p>
-<pre><code class="lang-csharp">Install-Package WbTstr.Net.SeleniumWebDriver
+<p>Just download the NuGet package and at least one driver, for example Chrome WebDriver.</p>
+<pre><code class="lang-csharp">Install-Package WbTstr
+Install-Package WbTstr.Drivers.Chrome
 </code></pre>
 <h3 id="example-test">Example test</h3>
 <pre><code class="lang-csharp">    <span class="hljs-keyword">namespace</span> <span class="hljs-title">MyTest.Examples</span> 
@@ -99,12 +87,6 @@ Just download the NuGet package.</p>
                 </li>
             <li class="nav-aside_lvl2">
                     <a href="#install">Install</a>
-                </li>
-            <li class="nav-aside_lvl3">
-                    <a href="#use-the-visual-studio-extension">Use the Visual Studio extension</a>
-                </li>
-            <li class="nav-aside_lvl3">
-                    <a href="#use-the-nuget-package">Use the NuGet package</a>
                 </li>
             <li class="nav-aside_lvl2">
                     <a href="#example-test">Example test</a>
