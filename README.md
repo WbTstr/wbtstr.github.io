@@ -145,279 +145,182 @@ Even though the two tests are equivalent, the use of `out` values integrates bet
 <!-- start -->
 ## API
 
-### Actions
-We interchangeable use the terms `Action` and `Command` to refer to the same thing. This is because of terminology changes throughout the lifetime of the project.
-Actions are the units of work which manipulate state of the browser or the page.
+### Instructions
+The WbTstr API provides X different instructions to issue to WebDrivers and control browser instances. This section will give an overview of all of these instructions.
 
 #### I.Append
-Append text to the current values of inputs and textareas. Automatically calls <code>ToString()</code> on non-string values to simplify tests.
-Using `WithoutEvents()` will cause the value to be set via JavaScript and will not trigger keyup/keydown events in the browser.
+Append text in an input or textarea.
 
 ```csharp
-// Append text onto element value
-I.Append("Test!").In("#searchBox");
+I.Append("Apples").In("#element");
 
-// Append text without keyup/keydown events
-I.Append("Test!").WithoutEvents().In("#searchBox");
+I.Append(12).In("#element");
 
-// Append an integer onto element value
-I.Append(6).In("#quantity");
-
-// Append text using cached reference to element
-var element = I.Find("#searchBox");
-I.Append("Test!").In(element);
+I.Find("#element", out var element)
+    .Append("Apples").In(element);
 ```
 
 #### I.Click
-Click an element by selector, coordinates or cached reference. Optionally provide an offset to click relative to the item.
+Perform a single click on an element.
 
 ```csharp
-// Click by element selector
-I.Click("#searchBox");
+I.Click("#element");
 
-// Click by x, y coordinates
-I.Click(10, 100);
-
-// Click by relative offset from element selector
-I.Click("#searchBox", 10, 100);
-
-// Click using cached reference to element.
-var element = I.Find("#searchBox");
-I.Click(element);
+I.Find("#element", out var element)
+    .Click(element);
 ```
 
 #### I.DoubleClick
-Double-click an element by selector, coordinates or cached reference. Optionally provide an offset to click relative to the item.
+Perform a double click on an element.
 
 ```csharp
-// DoubleClick by element selector
-I.DoubleClick("#searchBox");
+I.DoubleClick("#element");
 
-// DoubleClick by x, y coordinates
-I.DoubleClick(10, 100);
-
-// DoubleClick by relative offset from element selector
-I.DoubleClick("#searchBox", 10, 100);
-
-// DoubleClick using cached reference to element.
-var element = I.Find("#searchBox");
-I.DoubleClick(element);
+I.Find("#element", out var element)
+    .DoubleClick(element);
 ```
 
 #### I.Drag
-Drag &amp; drop works with elements, coordinates and offsets. In the next version, the offset functionality will look a bit less... stupid. Sorry about that.
+Perform a drag interaction from a point A to a point B. Points can be either elements or a window coordinate (coordinates start at the left-upper).
 
 ```csharp
-// Drag one element to another
-I.Drag("#drag").To("#drop");
+var pointA = I.Find("#pointA");
+var pointB = I.Find("#pointB");
 
-// Drag one coordinate to another
-I.Drag(100, 100).To(500, 500);
+I.Drag("#pointA").To("#pointB");
+I.Drag("#pointA").To(pointB);
+I.Drag("#pointA").To(100, 100);
 
-// Drag from element offset to another element
-I.Drag(I.Find("#drag"), 50, 50).To("#drop");
+I.Drag(pointA).To("#pointB");
+I.Drag(pointA).To(pointB);
+I.Drag(pointA).To(100, 100);
 
-// Drag from element to another elements offset
-I.Drag("#drag").To(I.Find("#drop", 100, 30));
+I.Drag(100, 100).To("#pointB");
+I.Drag(100, 100).To(pointB);
+I.Drag(100, 00).To(100, 100);
 ```
 
 #### I.Enter
-Primary method of entering text into inputs and textareas. Automatically calls `ToString()` on non-string values to simplify tests.
-
-Using `WithoutEvents()` will cause the value to be set via JavaScript and will not trigger keyup/keydown events in the browser.
+Enter text in an input or textarea. This will clear any previous texts.
 
 ```csharp
-// Enter text into element
-I.Enter("Test!").In("#searchBox");
+I.Enter("Apples").In("#element");
 
-// Enter text without keyup/keydown events
-I.Enter("Test!").WithoutEvents().In("#searchBox");
+I.Enter(12).In("#element");
 
-// Enter an integer into element
-I.Enter(6).In("#quantity");
-
-// Enter text using cached reference to element
-var element = I.Find("#searchBox");
-I.Enter("Test!").In(element);
+I.Find("#element", out var element)
+    .Enter("Apples").In(element);
 ```
 
 #### I.Find
-Get a factory reference to an element. Returns a function that can be evaluated to return access to the underlying element. Used internally by all functions that target elements.
-
-A second method, `I.FindMultiple`, exists to retrieve a collection of elements at once. It provides the same factory function but returns an `IEnumerable` instead.
-
-Often this function is used to break through the abstraction and get direct access to the providers element representation. This can be necessary in some cases but using `I.Find` in this way is discouraged.
-
-**Warning:** If you intend to cache an element, cache this function not its result. The result is not kept up to date with the current state of the page.
+Capture a single element, based on a CSS selector.
 
 ```csharp
-// Find element by selector
-var element = I.Find("#searchBox");
+var element = I.Find("#element");
 
-// Get reference to underlying IWebElement (Selenium)
-var webElement = element() as OpenQA.Selenium.IWebElement;
+I.Find("#element", out var element);
+```
 
-// Get reference to underlying WatiN.Core.Element (WatiN)
-var webElement = element() as WatiN.Core.Element;
+#### I.FindMultiple
+Capture multiple element, based on a CSS selector.
 
-// Find a collection of elements matching selector
-var listItems = I.FindMultiple("li");
+```csharp
+var elements = I.Find("#elements");
+
+I.Find("#elements", out var elements);
 ```
 
 #### I.Focus
-Set the browser's current focus to a specified element or cached reference to an element.
+Focus on an element.
 
 ```csharp
-// Set browser focus by selector
-I.Focus("#searchBox");
+I.Focus("#element");
 
-// Set browser focus using cached reference to element
-var element = I.Find("#searchBox");
+I.Find("#element", out var element)
+    .Focus(element);
 ```
 
 #### I.Hover
-Cause the mouse to hover over a specified element, coordinates or position relative to an element.
+Hover on an element.
 
 ```csharp
-// Hover over element
-I.Hover("#searchBox");
+I.Hover("#element");
 
-// Hover over x, y coordinates
-I.Hover(10, 100);
-
-// Hover over relative offset from element selector
-I.Hover("#searchBox", 10, 100);
-
-// Hover using cached reference to element.
-var element = I.Find("#searchBox");
-I.Hover(element);
+I.Find("#element", out var element)
+    .Hover(element);
 ```
 
 #### I.Open
-Open and navigate the web browser to the specified URL or <a href="http://msdn.microsoft.com/en-us/library/system.uri(v=vs.110).aspx" target="_blank">Uri</a>. Using a Uri can be valuable to validate your URI fragment before using it in a test.
+Navigate to a specific URL.
 
 ```csharp
-// Open browser via string/URL
-I.Open("http://google.com");
+I.Open("https://mirabeau.nl/en");
 
-// Open browser via URI
-I.Open(new Uri("http://google.com"));
+I.Open(new Uri("https://mirabeau.nl/en"));
 ```
 
-#### I.Press
-Triggers a single OS level keypress event. This method will send events to whatever the active window is at the time its trigger, currently **not guaranteed to be the actual browser window. Use with caution.**
-
-The intended use is for interactive with elements that steal focus or are not a part of the DOM such as Flash.
-
-Several keys require special values to be used. Refer to the <a href="http://msdn.microsoft.com/en-us/library/system.windows.forms.sendkeys.aspx" target="_blank">Windows Forms SendKeys documentation</a> for valid values.
+### I.ResizeWindow
+Resizes the window
 
 ```csharp
-// Press Tab key
-I.Press("{TAB}");
+I.ResizeWindow(1920, 1080);
 ```
 
 #### I.RightClick
-Right-click an element by selector, coordinates or cached reference. Optionally provide an offset to click relative to the item.
+Perform a right/context click on an element.
 
 ```csharp
-// RightClick by element selector
-I.RightClick("#searchBox");
+I.RightClick("#element");
 
-// RightClick by x, y coordinates
-I.RightClick(10, 100);
-
-// RightClick by relative offset from element selector
-I.RightClick("#searchBox", 10, 100);
-
-// RightClick using cached reference to element.
-var element = I.Find("#searchBox");
-I.RightClick(element);
+I.Find("#element", out var element)
+    .RightClick(element);
 ```
 
-#### I.Select
-Primary method of selecting items in `<SELECT>` elements found via selector or cached reference. Selection can be done using `<OPTION>` value, text or index.
-
-Selecting via Text/string will fall back to Value matching if no match is found. This simplifies the API for most users but may be confusing. If you need to guarantee the selection was based on value use the `Option` overload.
+### I.MaximizeWindow
+Maximizes the window
 
 ```csharp
-// Select option by Text
-I.Select("MN").From("#states");
-
-// Select option by index
-I.Select(12).From("#states");
-
-// Select option by value
-I.Select(Option.Value, 9999).From("#numbers");
-
-// Select multiple options from a multiselect by text, index, or value
-I.Select("ND", "MN").From("#states");
-I.Select(10, 11, 12).From("#states");
-I.Select(Option.Value, 9998, 9999).From("#numbers");
+I.MaximizeWindow();
 ```
 
 #### I.TakeScreenshot
-Grab a quick screenshot of the current browser window and save it to disk. The screenshot path is configurable via `Settings.ScreenshotPath`.
+Take a screenshot and saves it to disk.
 
 ```csharp
-// Take Screenshot
-I.TakeScreenshot("LoginScreen");
+I.TakeScreenshot("screenshot.png");
+
+I.TakeScreenshot("screenshot.png", "%TEMP%");
 ```
 
 #### I.Type
-Type a string, one character at a time using OS level keypress events. This functionality will send keypress events to whatever the active window is at the time its trigger, currently **not guaranteed to be the actual browser window. Use with caution.**
-
-The intended use is for interactive with elements that steal focus or are not a part of the DOM such as Flash.
-
-Type does not support the use of special key values.
+Type a text, without specifiying a target.
 
 ```csharp
-// Type string
-I.Type("Test!");
-```
+I.Type("Apples");
 
-#### I.Upload
-Upload a file using an `<input type="file">` on the current page. The provided path must be absolute and point to the file you want to upload.
-
-This has been used with several Flash uploaders without issue. Your mileage may vary.
-
-```csharp
-// Upload LoginScreen.jpg
-I.Upload("input[type='file'].uploader", @"C:\LoginScreen");
+I.Type(Keys.Enter);
 ```
 
 #### I.Wait
-
-Wait for a specified period of time before continuing the test. Method accepts a number of seconds or a <a href="http://msdn.microsoft.com/en-us/library/system.timespan(v=vs.110).aspx" target="_blank">TimeSpan</a>. Not guaranteed to be exact.
-
-In most cases, your tests will be less fragile if you can utilize <a href="#i-waituntil">I.WaitUntil</a> instead.
+Wait for a specific period of time.
 
 ```csharp
-// Wait for 10 seconds
-I.Wait(10);
+I.Wait(5000);
 
-// Wait for 500 milliseconds
-I.Wait(TimeSpan.FromMilliseconds(500));
+I.Wait(seconds: 5);
+
+I.Wait(TimeSpan.FromSeconds(5));
 ```
 
 #### I.WaitUntil
-Recommended method of waiting in tests. Conditional wait using anonymous functions that either return `true` / `false` or throw an `Exception` when the condition has not been met. Useful when content on the page is loaded dynamically or changes state during interactions.
-
-If the condition has not been met, a timed wait will be executed before testing the condition again. The duration if this wait is set in `Settings.DefaultWaitUntilThreadSleep`.
-
-The condition must succeed within the time set in `Settings.DefaultWaitUntilTimeout` or the test will fail.
-
-Important Note: Most actions have implicit WaitUntil functionality built-in. Before adding, be sure your test needs it.
+Wait until a predicate returns true.
 
 ```csharp
-// WaitUntil element exists
-I.WaitUntil(() => I.Assert.Exists("#searchBar"));
+I.WaitUntil(() => I.Find("#element").Displayed);
 
-// WaitUntil element has attribute 'data-loaded'
-I.WaitUntil(() =>
-    I.Find("#searchBar")()
-        .Attributes
-        .Get("data-loaded") == "true"
-);
+var interval = TimeSpan.FromSeconds(3);
+var timeout = TimeSpan.FromSeconds(30);
+I.WaitUntil(() => I.Find("#element").Text == "Apple", interval, timeout)
 ```
 
 <!-- end -->
