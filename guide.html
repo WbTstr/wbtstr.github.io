@@ -54,9 +54,9 @@
 <pre><code class="lang-powershell">Install-Package WbTstr
 Install-Package WbTstr.Drivers.Chrome
 </code></pre>
-<p>Be sure to also install at least one driver, we&#39;ll assume Chrome for the remainer of this guide.</p>
-<h3 id="adding-a-fixture">Adding a fixture</h3>
-<p>Below is shown a basic WbTstr fixture. Note that, although WbTstr is un-opinoinated towards choise of assertion framework, we&#39;re using NUnit for this guide.</p>
+<p>Be sure to also install at least one driver, we&#39;ll assume Chrome for the remainder of this guide.</p>
+<h3 id="adding-fixtures">Adding fixtures</h3>
+<p>Below is shown a basic WbTstr fixture. Note that, although WbTstr is un-opinoinated towards choice of assertion framework, we&#39;re using NUnit for this guide.</p>
 <pre><code class="lang-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">WbTstr.Examples</span> 
 {
     [<span class="hljs-meta">TestFixture</span>]
@@ -73,6 +73,7 @@ Install-Package WbTstr.Drivers.Chrome
 </code></pre>
 <p>With the <code>WebDriverConfig</code> attribute we can specify the type of WebDriver we want to use for this fixture. 
 The <code>I</code> property inherited from the <code>WbTstrFixture</code> class can be used to issue instructions to the WebDriver.</p>
+<h3 id="configuring-fixtures">Configuring fixtures</h3>
 <p>For more advanced configurations, we can add more arguments to the <code>WebDriverConfig</code> attribute, as shown below.
 The <code>WebDriverScope</code> defines the scope of the WebDriver. In this case a new browser instance will be started for each test (the default scope is <code>WebDriverScope.Fixture</code>).</p>
 <pre><code class="lang-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">WbTstr.Examples</span> 
@@ -89,7 +90,7 @@ The <code>WebDriverScope</code> defines the scope of the WebDriver. In this case
     }  
 }
 </code></pre>
-<p>When a preset is specified, additional WebDriver-specific configuration will be loaded from <em>WbTstr.config</em> (make sure to <code>Copy to Output Directory</code> to <code>Copy always</code> for this file, when used). It is, for example, possible to configure a proxy and/or pass arguments to the WebDriver executable:</p>
+<p>When a configuration preset is provided, additional WebDriver-specific configuration will be loaded from <em>WbTstr.config</em> (make sure to set the <code>Copy to Output Directory</code> property to <code>Copy always</code> for this file). It is, for example, possible to configure a proxy and/or pass arguments to the WebDriver executable:</p>
 <pre><code class="lang-xml"><span class="php"><span class="hljs-meta">&lt;?</span>xml version=<span class="hljs-string">"1.0"</span> encoding=<span class="hljs-string">"utf-8"</span> <span class="hljs-meta">?&gt;</span></span>
 <span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">webDriverConfig</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"preset1"</span>&gt;</span>
@@ -102,6 +103,7 @@ The <code>WebDriverScope</code> defines the scope of the WebDriver. In this case
   <span class="hljs-tag">&lt;/<span class="hljs-name">webDriverConfig</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span>
 </code></pre>
+<p>Note that configuration presets can be reused by fixtures. For a complete overview of the configuration options, please see the <a href="/api.html">API reference</a>.</p>
 <!-- end -->
         </article>
     </main>
@@ -116,7 +118,10 @@ The <code>WebDriverScope</code> defines the scope of the WebDriver. In this case
                     <a href="#install">Install</a>
                 </li>
             <li class="nav-aside_lvl2">
-                    <a href="#adding-a-fixture">Adding a fixture</a>
+                    <a href="#adding-fixtures">Adding fixtures</a>
+                </li>
+            <li class="nav-aside_lvl2">
+                    <a href="#configuring-fixtures">Configuring fixtures</a>
                 </li>
             
         </ol>
