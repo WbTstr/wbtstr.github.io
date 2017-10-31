@@ -1,7 +1,7 @@
 # WbTstr
 
-## Overview
 <!-- start -->
+## Overview
 WbTstr is the successor of [WbTstr.Net](https://github.com/mirabeau-nl/WbTstr.Net). It's completely rewritten from scratch with extensibility in mind, using the latest C# / .NET features.
 Users of WbTstr are provided with an intuitive API that can be used to completely automate all facets of automated browser-based functional testing, without having to deal with the nitty-gritty details of Selenium.
 
@@ -15,7 +15,6 @@ Noteworthy functionalities include:
 - configurable WebDriver scope (instance per fixture, or per test).
 
 Head over to the [guide](/guide.html) to get started.
- 
 <!-- end -->
 
 
@@ -139,146 +138,12 @@ public void OutValue()
 }
 ```
 
-Even though the two tests are equivalent, the use of `out` integrates better with the fluent API of WbTstr. This is the recommended way of capturing elements. The same applies to capturing [page states](/api.html#i-capturepage).
-
+Even though the two tests are equivalent, the use of `out` values integrates better with the fluent API of WbTstr. This is the recommended way of capturing elements. The same applies to capturing [page states](/api.html#i-capturepage).
 <!-- end -->
 
 
 <!-- start -->
 ## API
-
-
-### Configuration
-The WbTstr class provides a fluent interface to configure WbTstr.Net
-
-#### Basic usage
-In the most basic setup, the WbTstr class can be used to specify the webdriver that needs to be used.
-```csharp
-    WbTstr.Configure()
-        .UseWebDriver(SeleniumWebDriver.Browser.Chrome)
-        .BootstrapInstance();
-```
-
-Calling the _.Configure_ method initializes the WbTstr class for configuration, the _.BootstrapInstance_ and _.Bootstrap_ methods must be called to finalize the configuration. Recommended is to configure WbTstr from a shared base test class. 
-
-It is also possible to configure WbTstr using a configuration file (app.config). When using only file based configuration it is no longer required to call the _.Configure_ method. However, you can still use it to override file based configuration. It is still required to call the _.Bootstrap_ method, as in the example below. 
-```csharp
-    <appSettings>
-        <add key="WbTstr:UseWebDriver" value="Chrome" />
-    </appSettings>
-
-    WbTstr.Boostrap();
-```
-
-
-#### Configure BrowserStack
-The WbTstr class can also be used to configure BrowserStack, instead of calling the _.UseWebDriver_ method the _.UseBrowserStackAsRemoteDriver_ method is called. An example is shown below.
-```csharp
-    WbTstr.Configure()
-        .UseBrowserStackAsRemoteDriver()
-        .SetBrowserStackCredentials("usr", "pwd")    // Recommendation: put credentials in a config file.
-        .EnableBrowserStackLocal()                   
-        .BootstrapInstance();
-```
-When calling the _.EnableBrowserStackLocal_ method, WbTstr will setup [BrowserStack Local](https://www.browserstack.com/local-testing) for testing on private networks.
-
-A few handy methods are added to set BrowserStack capabilities:
-```csharp
-    WbTstr.Configure()
-        .UseBrowserStackAsRemoteDriver()
-        .PreferedBrowser().IsChrome()
-        .PreferedOperatingSystem().IsWindows()
-        .PreferedScreenResolution().IsAny()
-        .EnableBrowserStackProjectGrouping("projectName")
-        .SetBrowserStackBuildIdentifier("buildIdentification")
-        .BootstrapInstance();
-```
-For more information about these capabilities, see the BrowserStack [capabilities documentation](https://www.browserstack.com/automate/capabilities).
-
-#### Adding custom capabilities
-Additional selenium, BrowserStack and/or custom capabilities can be added with the ._SetCapability_ method.
-```csharp
-    WbTstr.Configure()
-        .SetCapability("deviceOrientation", "landscape")
-        .BootstrapInstance();
-```
-#### File based configuration
-The following tables shows what can be configured using file based configuration (more will be added).
-
-| Key  |      Options |
-|----------|-------------|
-| EnableDebug |  false / true | 
-| UseWebDriver |    Chrome / InternetExplorer / InternetExplorer64 / Firefox / PhantomJs / Safari  |
-| EnableDryRun | true / false |
-| EnableBrowserStackLocal | true / false |
-| BrowserStackProject | non-empty string |
-
-WbTstr will first look for environment variables before looking in the configuration file.
-
-### Page Objects
-Anyone who has done any serious amount of automated testing will tell you that the largest challenge we all face is fragile, hard to maintain tests.
-
-To combat this, it can be useful to use `PageObject` to group your actions/expects/asserts. This gives you functional code that can be reused in any number of tests.
-
-With the new first-class `PageObject` support, we provide some simple but useful built-in functions such as `Go` and `Switch`. Also included, a validation function tied to the `this.At` property.
-
-Any time a `PageObject` navigation is triggered, or any time `Switch` is used, the included `At` function will execute providing an easy hook to make sure all tests execute with the underlying browser and application in the same state, every time.
-
-If you have any ideas for or comments on the new <code>PageObject</code> functionality, let us know! It's a new feature and we'd love some feedback.
-
-
-```csharp
-public class HomePage : PageObject<HomePage>
-{
-    public HomePage(FluentTest test)
-        : base(test)
-    {
-        Url = "http://www.mirabeau.nl";
-        At = () =>; I.Expect.Exists("H1");
-    }
-
-    public HomePage OpenContactPage()
-    {
-        I.Click("#nav a[href='/nl-nl/contact']");
-        return this.Switch<ContactPage>();
-    }
-}
-
-public class ContactPage : PageObject<ContactPage>
-{
-    public ContactPage(FluentTest test)
-        : base(test)
-    {
-        At = () => I.Expect.Exists(".locations");
-    }
-
-    public ContactPage AssertHasPhone()
-    {
-        I.Expect.Exists(".icon-telephone");
-        return this;
-    }
-}
-
-public class SampleTest : FluentTest
-{
-    public SampleTest()
-    {
-         WbTstr.Configure()
-        .UseBrowserStackAsRemoteDriver()
-        .PreferedBrowser().IsChrome()
-        .BootstrapInstance();
-    }
-
-    [Fact]
-    public void CheckForPhoneIcon()
-    {
-        new HomePage(this)
-            .Go()
-            .OpenContactPage()
-            .AssertHasPhone();
-    }
-}
-```
 
 ### Actions
 We interchangeable use the terms `Action` and `Command` to refer to the same thing. This is because of terminology changes throughout the lifetime of the project.
@@ -553,96 +418,6 @@ I.WaitUntil(() =>
         .Attributes
         .Get("data-loaded") == "true"
 );
-```
-
-### Assertions
-
-#### I.Assert.Class
-Assert that an element matching selector has the specified class.
-
-```csharp
-// Has btn-primary class
-I.Assert.Class("btn-primary").Of("header");
-```
-
-#### I.Assert.Count
-Assert that we have a certain count of items matching a selector.
-
-```csharp
-// 1 search bar on page.
-I.Assert.Count(1).Of("#searchBar");
-```
-
-#### I.Assert.Exists
-Assert that an element is on the page.
-
-```csharp
-// Element on page
-I.Assert.Exists("#searchBar");
-```
-
-#### I.Assert.False
-Assert that an anonymous function should return false. Use with `I.Find` to fail tests properly if conditions are not met.
-
-```csharp
-// Element is not a select box
-var element = I.Find("input");
-I.Assert.False(() => element().IsSelect);
-```
-
-#### I.Assert.Text
-Assert that an element matching selector has the specified text. Works with any DOM element that has `innerHTML` or can provides its contents/value via text.
-
-Supports anonymous functions that return `true` or `false`.
-
-```csharp
-// Header tag set to Test!
-I.Assert.Text("Test!").In("header");
-
-// Content longer than 50 characters
-I.Assert.Text((text) => text.Length > 50).In("#content");
-```
-#### I.Assert.Throws
-Assert that an `Exception` should be thrown by the anonymous function. Useful for negative assertions such as testing that something is not present.
-
-```csharp
-// Page has no errors
-I.Assert.Throws(() => I.Assert.Exists(".error"));
-```
-
-#### I.Assert.True
-Assert that an anonymous function should return true. Use with `I.Find` to fail tests properly if conditions are not met.
-
-```csharp
-// Element is a select box
-var element = I.Find("select");
-I.Assert.True(() => element().IsSelect);
-```
-
-#### I.Assert.Url
-Assert that the browser has the specified Url. If using the string or Uri overloads, the match must be exact.
-
-Supports anonymous functions that return `true` or `false`. Particularly useful on pages that modify the URL via hashtags or other mechanisms.
-
-```csharp
-// At #assert-url on docs
-I.Assert.Url("http://fluent.stirno.com/docs/#assert-url");
-
-// Verify we're on SSL
-I.Assert.Url((uri) => uri.Scheme == "https");
-```
-
-#### I.Assert.Value
-Assert that an element matching selector has the specified value. Works with `<INPUT>`, `<TEXTAREA>` and `<SELECT>`
-
-Supports anonymous functions that return `true` or `false`.
-
-```csharp
-// Dropdown has value of 10.
-I.Assert.Value(10).In("#quantity");
-
-// Value starts with 'M'
-I.Assert.Value((value) => value.StartsWith("M")).In("#states");
 ```
 
 <!-- end -->
