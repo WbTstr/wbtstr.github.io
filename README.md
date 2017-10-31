@@ -105,7 +105,7 @@ When a configuration preset is provided, additional WebDriver-specific configura
 Note that configuration presets can be reused among fixtures. For a complete overview of the configuration options, please consult the [API reference](/api.html).
 
 ### Capture elements
-WbTstr supports capturing of page elements, through CSS selectors, in two ways: `return` or `out` values. The two tests below demostrate the two variants. 
+WbTstr supports capturing page elements, through CSS selectors, in two ways: `return` or `out` values. This is demonstrated by the two tests below.
 
 ```csharp   
 [TestCase]
@@ -139,7 +139,7 @@ public void OutValue()
 }
 ```
 
-Even though the two tests are equivalent, the use of `out` integrates better with the fluent API of WbTstr. This is the recommended way of capturing elements.
+Even though the two tests are equivalent, the use of `out` integrates better with the fluent API of WbTstr. This is the recommended way of capturing elements. The same applies to capturing page states, see the [API reference](/api.html) for more information.
 
 <!-- end -->
 
