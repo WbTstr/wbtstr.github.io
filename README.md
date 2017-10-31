@@ -44,7 +44,6 @@ Install-Package WbTstr.Drivers.Chrome
 Be sure to also install at least one driver, we'll assume Chrome for the remainder of this guide.
 
 ### Adding fixtures
-
 Below is shown a basic WbTstr fixture. Note that, although WbTstr is un-opinoinated towards choice of assertion framework, we're using NUnit for this guide.
 
 ```csharp   
@@ -52,10 +51,10 @@ namespace WbTstr.Examples
 {
     [TestFixture]
     [WebDriverConfig(WebDriverType.Chrome)]
-    public class Fixture01 : WbTstrFixture
+    public class Fixture : WbTstrFixture
     {
         [TestCase]
-        public void Test01()
+        public void Test()
         {
             I.Open("http://www.mirabeau.nl/en")
         }
@@ -76,10 +75,10 @@ namespace WbTstr.Examples
 {
     [TestFixture]
     [WebDriverConfig(WebDriverType.Chrome, WebDriverScope.Test, preset: "preset1")]
-    public class Fixture01 : WbTstrFixture
+    public class Fixture : WbTstrFixture
     {
         [TestCase]
-        public void Test01()
+        public void Test()
         {
             I.Open("http://www.mirabeau.nl/en")
         }
@@ -103,7 +102,44 @@ When a configuration preset is provided, additional WebDriver-specific configura
 </configuration>
 ```
 
-Note that configuration presets can be reused by fixtures. For a complete overview of the configuration options, please see the [API reference](/api.html).
+Note that configuration presets can be reused among fixtures. For a complete overview of the configuration options, please consult the [API reference](/api.html).
+
+### Capture elements
+WbTstr supports capturing of page elements, through CSS selectors, in two ways: `return` or `out` values. The two tests below demostrate the two variants. 
+
+```csharp   
+[TestCase]
+public void ReturnValue()
+{
+    // Arrange
+    string selector = "#element";
+
+    // Act
+    I.Open("http://www.mirabeau.nl/en")
+    var element = I.Find(selector)
+    I.Click(element);
+
+    // Assert
+    Assert.AreEqual(selector, element.Selector);
+}
+
+[TestCase]
+public void OutValue()
+{
+    // Arrange
+    string selector = "#element";
+
+    // Act
+    I.Open("http://www.mirabeau.nl/en")
+        .Find(selector, out var element)
+        .Click(element);
+
+    // Assert
+    Assert.AreEqual(selector, element.Selector);
+}
+```
+
+Even though the two tests are equivalent, the use of `out` integrates better with the fluent API of WbTstr. This is the recommended way of capturing elements.
 
 <!-- end -->
 
