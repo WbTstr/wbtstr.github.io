@@ -73,7 +73,7 @@ Install-Package WbTstr.Drivers.Chrome
 </code></pre>
 <p>With the <code>WebDriverConfig</code> attribute we can specify the type of WebDriver we want to use for this fixture. 
 The <code>I</code> property inherited from the <code>WbTstrFixture</code> class can be used to issue instructions to the WebDriver.</p>
-<h3 id="configuring-fixtures">Configuring fixtures</h3>
+<h3 id="configuration">Configuration</h3>
 <p>For more advanced configurations, we can add more arguments to the <code>WebDriverConfig</code> attribute, as shown below.
 The <code>WebDriverScope</code> defines the scope of the WebDriver. In this case a new browser instance will be started for each test (the default scope is <code>WebDriverScope.Fixture</code>).</p>
 <pre><code class="lang-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">WbTstr.Examples</span> 
@@ -121,7 +121,7 @@ The <code>WebDriverScope</code> defines the scope of the WebDriver. In this case
                     <a href="#adding-fixtures">Adding fixtures</a>
                 </li>
             <li class="nav-aside_lvl2">
-                    <a href="#configuring-fixtures">Configuring fixtures</a>
+                    <a href="#configuration">Configuration</a>
                 </li>
             
         </ol>
