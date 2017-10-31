@@ -51,19 +51,20 @@
         <article class="layout__main_content">
             <h1>Overview</h1>
             <!-- start -->
-<p>WbTstr is the successor of <a href="https://github.com/mirabeau-nl/WbTstr.Net">WbTstr.Net</a>, it&#39;s completely rewritten from scratch with extensibility in mind and by using the latest C# / .NET features. 
+<p>WbTstr is the successor of <a href="https://github.com/mirabeau-nl/WbTstr.Net">WbTstr.Net</a>. It&#39;s completely rewritten from scratch with extensibility in mind, using the latest C# / .NET features.
 Users of WbTstr are provided with an intuitive API that can be used to completely automate all facets of automated browser-based functional testing, without having to deal with the nitty-gritty details of Selenium.</p>
-<p>Noteworthy features include:</p>
+<p>Noteworthy functionalities include:</p>
 <ul>
-<li>only uses native instructions to control browser instances: doesn&#39;t rely on JavaScript;</li>
-<li>un-opinoinated towards choice of assertion framework, compatible with NUnit, xUnit and others;</li>
-<li>access to the source of individual page elements for direct testing on HTML (e.g. with AngleSharp);</li>
-<li>interact with cookies (read/write) and execute custom JavaScript (return values accessible in C#);</li>
-<li>experimental support for HTTP Basic authentication through the browser&#39;s alert/pop-up window;</li>
-<li>configurable WebDriver scope (browser instance per fixture, or per test case).</li>
+<li>only uses native instructions to control browser instances;</li>
+<li>un-opinoinated towards choice of assertion framework;</li>
+<li>access to HTML of individual page elements;</li>
+<li>read/write access to cookies and execution of custom JavaScript;</li>
+<li>native support for HTTP Basic authentication;</li>
+<li>configurable WebDriver scope (instance per fixture, or per test).</li>
 </ul>
 <p>Head over to the <a href="/guide.html">guide</a> to get started.</p>
 <!-- end -->
+            
             <!-- start -->
 <h2 id="contributors">Contributors</h2>
 <p>WbTstr is an open-source initaitive from <a href="https://www.mirabeau.nl/en">Mirabeau</a>.</p>
@@ -74,35 +75,6 @@ Users of WbTstr are provided with an intuitive API that can be used to completel
 <li><a href="https://github.com/rickvanschalkwijk">@rickvanschalkwijk</a><!-- end --></li>
 </ul>
 
-            <!-- start -->
-<h2 id="guide">Guide</h2>
-<h3 id="install">Install</h3>
-<p>Just download the NuGet package and at least one driver, for example Chrome WebDriver.</p>
-<pre><code class="lang-csharp">Install-Package WbTstr
-Install-Package WbTstr.Drivers.Chrome
-</code></pre>
-<h3 id="example-test">Example test</h3>
-<pre><code class="lang-csharp">    <span class="hljs-keyword">namespace</span> <span class="hljs-title">MyTest.Examples</span> 
-    {
-      <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyFirstTest</span> : <span class="hljs-title">FluentTest</span>
-      {
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyFirstTest</span>(<span class="hljs-params"></span>)
-        </span>{
-          WbTstr.Configure()
-          .PreferedBrowser().IsChrome();
-          WbTstr.Bootstrap();
-        }
-
-        [<span class="hljs-meta">TestCase</span>]
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Test1</span>(<span class="hljs-params"></span>)
-        </span>{
-           I.Open(<span class="hljs-string">"http://www.mirabeau.nl"</span>);
-           I.Assert.Exists(<span class="hljs-string">"H1"</span>);
-        }
-      }  
-    }
-</code></pre>
-<!-- end -->
         </article>
     </main>
 
