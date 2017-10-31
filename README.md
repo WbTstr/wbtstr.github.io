@@ -139,7 +139,7 @@ public void OutValue()
 }
 ```
 
-Even though the two tests are equivalent, the use of `out` integrates better with the fluent API of WbTstr. This is the recommended way of capturing elements. The same applies to capturing page states, see the [API reference](/api.html) for more information.
+Even though the two tests are equivalent, the use of `out` integrates better with the fluent API of WbTstr. This is the recommended way of capturing elements. The same applies to capturing [page states](/api.html#i-capturepage).
 
 <!-- end -->
 
