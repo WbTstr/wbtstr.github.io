@@ -66,7 +66,7 @@ namespace WbTstr.Examples
 With the `WebDriverConfig` attribute we can specify the type of WebDriver we want to use for this fixture. 
 The `I` property inherited from the `WbTstrFixture` class can be used to issue instructions to the WebDriver.
 
-### Configuring fixtures
+### Configuration
 
 For more advanced configurations, we can add more arguments to the `WebDriverConfig` attribute, as shown below.
 The `WebDriverScope` defines the scope of the WebDriver. In this case a new browser instance will be started for each test (the default scope is `WebDriverScope.Fixture`).
