@@ -50,36 +50,46 @@
             <!-- start -->
 <h2 id="api">API</h2>
 <h3 id="instructions">Instructions</h3>
-<p>The WbTstr API provides X different instructions to issue to WebDrivers and control browser instances. This section will give an overview of all of these instructions.</p>
+<p>The WbTstr API provides X distinct types of instructions. Selectors, if required, must be specified as <a href="https://www.w3.org/TR/css3-selectors/">CSS selectors</a>.</p>
 <h4 id="i-append">I.Append</h4>
 <p>Append text in an input or textarea.</p>
 <pre><code class="lang-csharp">I.Append(<span class="hljs-string">"Apples"</span>).In(<span class="hljs-string">"#element"</span>);
 
 I.Append(<span class="hljs-number">12</span>).In(<span class="hljs-string">"#element"</span>);
 
-I.Find(<span class="hljs-string">"#element"</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> element)
-    .Append(<span class="hljs-string">"Apples"</span>).In(element);
+I.Append(<span class="hljs-string">"Apples"</span>).In(element);
+</code></pre>
+<h4 id="i-authenticate">I.Authenticate</h4>
+<p>Performs a HTTP basic authentication. First waits until an alert window is present, and then enters the username and password.</p>
+<pre><code class="lang-csharp">I.Authenticate(<span class="hljs-string">"username"</span>, <span class="hljs-string">"password"</span>);
+
+I.Authenticate(<span class="hljs-string">"username"</span>, <span class="hljs-string">"password"</span>, timeout);
 </code></pre>
 <h4 id="i-click">I.Click</h4>
 <p>Perform a single click on an element.</p>
 <pre><code class="lang-csharp">I.Click(<span class="hljs-string">"#element"</span>);
 
-I.Find(<span class="hljs-string">"#element"</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> element)
-    .Click(element);
+I.Click(element);
+</code></pre>
+<h4 id="i-capturepage">I.CapturePage</h4>
+<p>Captures the current state of the page.</p>
+<pre><code class="lang-csharp"><span class="hljs-keyword">var</span> page = I.CapturePage()
+
+I.CapturePage(<span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> page);
+</code></pre>
+<h4 id="i-deletecookie">I.DeleteCookie</h4>
+<p>Deletes a cookie.</p>
+<pre><code class="lang-csharp">I.DeleteCookie(<span class="hljs-string">"name"</span>);
 </code></pre>
 <h4 id="i-doubleclick">I.DoubleClick</h4>
 <p>Perform a double click on an element.</p>
 <pre><code class="lang-csharp">I.DoubleClick(<span class="hljs-string">"#element"</span>);
 
-I.Find(<span class="hljs-string">"#element"</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> element)
-    .DoubleClick(element);
+I.DoubleClick(element);
 </code></pre>
 <h4 id="i-drag">I.Drag</h4>
 <p>Perform a drag interaction from a point A to a point B. Points can be either elements or a window coordinate (coordinates start at the left-upper).</p>
-<pre><code class="lang-csharp"><span class="hljs-keyword">var</span> pointA = I.Find(<span class="hljs-string">"#pointA"</span>);
-<span class="hljs-keyword">var</span> pointB = I.Find(<span class="hljs-string">"#pointB"</span>);
-
-I.Drag(<span class="hljs-string">"#pointA"</span>).To(<span class="hljs-string">"#pointB"</span>);
+<pre><code class="lang-csharp">I.Drag(<span class="hljs-string">"#pointA"</span>).To(<span class="hljs-string">"#pointB"</span>);
 I.Drag(<span class="hljs-string">"#pointA"</span>).To(pointB);
 I.Drag(<span class="hljs-string">"#pointA"</span>).To(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>);
 
@@ -92,39 +102,46 @@ I.Drag(<span class="hljs-number">100</span>, <span class="hljs-number">100</span
 I.Drag(<span class="hljs-number">100</span>, <span class="hljs-number">00</span>).To(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>);
 </code></pre>
 <h4 id="i-enter">I.Enter</h4>
-<p>Enter text in an input or textarea. This will clear any previous texts.</p>
+<p>Enter text in an input or textarea. This will clear the target first.</p>
 <pre><code class="lang-csharp">I.Enter(<span class="hljs-string">"Apples"</span>).In(<span class="hljs-string">"#element"</span>);
 
 I.Enter(<span class="hljs-number">12</span>).In(<span class="hljs-string">"#element"</span>);
 
-I.Find(<span class="hljs-string">"#element"</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> element)
-    .Enter(<span class="hljs-string">"Apples"</span>).In(element);
+I.Enter(<span class="hljs-string">"Apples"</span>).In(element);
+</code></pre>
+<h4 id="i-executejs">I.ExecuteJs</h4>
+<p>Executes a JS script. Supported return types are: IElement, string, long and bool.</p>
+<pre><code class="lang-csharp"><span class="hljs-keyword">var</span> body = I.ExecuteJs&lt;IElement&gt;(<span class="hljs-string">"return window.document.body"</span>);
+
+<span class="hljs-keyword">var</span> tagName = I.ExecuteJs&lt;<span class="hljs-keyword">string</span>&gt;(<span class="hljs-string">"return window.document.body.tagName"</span>);
+
+<span class="hljs-keyword">long</span> childElementCount = I.ExecuteJs&lt;<span class="hljs-keyword">long</span>&gt;(<span class="hljs-string">"return window.document.body.childElementCount"</span>);
+
+<span class="hljs-keyword">bool</span> HasAttributes = I.ExecuteJs&lt;<span class="hljs-keyword">bool</span>&gt;(<span class="hljs-string">"return window.document.body.hasAttributes()"</span>);
 </code></pre>
 <h4 id="i-find">I.Find</h4>
-<p>Capture a single element, based on a CSS selector.</p>
+<p>Capture a single element.</p>
 <pre><code class="lang-csharp"><span class="hljs-keyword">var</span> element = I.Find(<span class="hljs-string">"#element"</span>);
 
 I.Find(<span class="hljs-string">"#element"</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> element);
 </code></pre>
 <h4 id="i-findmultiple">I.FindMultiple</h4>
-<p>Capture multiple element, based on a CSS selector.</p>
-<pre><code class="lang-csharp"><span class="hljs-keyword">var</span> elements = I.Find(<span class="hljs-string">"#elements"</span>);
+<p>Capture multiple element.</p>
+<pre><code class="lang-csharp"><span class="hljs-keyword">var</span> elements = I.FindMultiple(<span class="hljs-string">"#elements"</span>);
 
-I.Find(<span class="hljs-string">"#elements"</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> elements);
+I.FindMultiple(<span class="hljs-string">"#elements"</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> elements);
 </code></pre>
 <h4 id="i-focus">I.Focus</h4>
 <p>Focus on an element.</p>
 <pre><code class="lang-csharp">I.Focus(<span class="hljs-string">"#element"</span>);
 
-I.Find(<span class="hljs-string">"#element"</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> element)
-    .Focus(element);
+I.Focus(element);
 </code></pre>
 <h4 id="i-hover">I.Hover</h4>
 <p>Hover on an element.</p>
 <pre><code class="lang-csharp">I.Hover(<span class="hljs-string">"#element"</span>);
 
-I.Find(<span class="hljs-string">"#element"</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> element)
-    .Hover(element);
+I.Hover(element);
 </code></pre>
 <h4 id="i-open">I.Open</h4>
 <p>Navigate to a specific URL.</p>
@@ -132,7 +149,7 @@ I.Find(<span class="hljs-string">"#element"</span>, <span class="hljs-keyword">o
 
 I.Open(<span class="hljs-keyword">new</span> Uri(<span class="hljs-string">"https://mirabeau.nl/en"</span>));
 </code></pre>
-<h3 id="i-resizewindow">I.ResizeWindow</h3>
+<h4 id="i-resizewindow">I.ResizeWindow</h4>
 <p>Resizes the window</p>
 <pre><code class="lang-csharp">I.ResizeWindow(<span class="hljs-number">1920</span>, <span class="hljs-number">1080</span>);
 </code></pre>
@@ -140,15 +157,20 @@ I.Open(<span class="hljs-keyword">new</span> Uri(<span class="hljs-string">"http
 <p>Perform a right/context click on an element.</p>
 <pre><code class="lang-csharp">I.RightClick(<span class="hljs-string">"#element"</span>);
 
-I.Find(<span class="hljs-string">"#element"</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> element)
-    .RightClick(element);
+I.RightClick(element);
 </code></pre>
-<h3 id="i-maximizewindow">I.MaximizeWindow</h3>
+<h4 id="i-maximizewindow">I.MaximizeWindow</h4>
 <p>Maximizes the window</p>
 <pre><code class="lang-csharp">I.MaximizeWindow();
 </code></pre>
+<h4 id="i-setcookie">I.SetCookie</h4>
+<p>Add a cookie with the domain of the currently loaded website. Deletes cookies with the same name first.</p>
+<pre><code class="lang-csharp">I.SetCookie(<span class="hljs-string">"name"</span>, <span class="hljs-string">"value"</span>);
+
+I.SetCookie(CookieFactory.Create(<span class="hljs-string">"name"</span>, <span class="hljs-string">"value"</span>));
+</code></pre>
 <h4 id="i-takescreenshot">I.TakeScreenshot</h4>
-<p>Take a screenshot and saves it to disk.</p>
+<p>Takes a screenshot and saves it to disk (as BMP, JPEG or PNG based on file extension).</p>
 <pre><code class="lang-csharp">I.TakeScreenshot(<span class="hljs-string">"screenshot.png"</span>);
 
 I.TakeScreenshot(<span class="hljs-string">"screenshot.png"</span>, <span class="hljs-string">"%TEMP%"</span>);
@@ -171,8 +193,6 @@ I.Wait(TimeSpan.FromSeconds(<span class="hljs-number">5</span>));
 <p>Wait until a predicate returns true.</p>
 <pre><code class="lang-csharp">I.WaitUntil(() =&gt; I.Find(<span class="hljs-string">"#element"</span>).Displayed);
 
-<span class="hljs-keyword">var</span> interval = TimeSpan.FromSeconds(<span class="hljs-number">3</span>);
-<span class="hljs-keyword">var</span> timeout = TimeSpan.FromSeconds(<span class="hljs-number">30</span>);
 I.WaitUntil(() =&gt; I.Find(<span class="hljs-string">"#element"</span>).Text == <span class="hljs-string">"Apple"</span>, interval, timeout)
 </code></pre>
 <!-- end -->
@@ -192,7 +212,16 @@ I.WaitUntil(() =&gt; I.Find(<span class="hljs-string">"#element"</span>).Text ==
                     <a href="#i-append">I.Append</a>
                 </li>
             <li class="nav-aside_lvl3">
+                    <a href="#i-authenticate">I.Authenticate</a>
+                </li>
+            <li class="nav-aside_lvl3">
                     <a href="#i-click">I.Click</a>
+                </li>
+            <li class="nav-aside_lvl3">
+                    <a href="#i-capturepage">I.CapturePage</a>
+                </li>
+            <li class="nav-aside_lvl3">
+                    <a href="#i-deletecookie">I.DeleteCookie</a>
                 </li>
             <li class="nav-aside_lvl3">
                     <a href="#i-doubleclick">I.DoubleClick</a>
@@ -202,6 +231,9 @@ I.WaitUntil(() =&gt; I.Find(<span class="hljs-string">"#element"</span>).Text ==
                 </li>
             <li class="nav-aside_lvl3">
                     <a href="#i-enter">I.Enter</a>
+                </li>
+            <li class="nav-aside_lvl3">
+                    <a href="#i-executejs">I.ExecuteJs</a>
                 </li>
             <li class="nav-aside_lvl3">
                     <a href="#i-find">I.Find</a>
@@ -218,14 +250,17 @@ I.WaitUntil(() =&gt; I.Find(<span class="hljs-string">"#element"</span>).Text ==
             <li class="nav-aside_lvl3">
                     <a href="#i-open">I.Open</a>
                 </li>
-            <li class="nav-aside_lvl2">
+            <li class="nav-aside_lvl3">
                     <a href="#i-resizewindow">I.ResizeWindow</a>
                 </li>
             <li class="nav-aside_lvl3">
                     <a href="#i-rightclick">I.RightClick</a>
                 </li>
-            <li class="nav-aside_lvl2">
+            <li class="nav-aside_lvl3">
                     <a href="#i-maximizewindow">I.MaximizeWindow</a>
+                </li>
+            <li class="nav-aside_lvl3">
+                    <a href="#i-setcookie">I.SetCookie</a>
                 </li>
             <li class="nav-aside_lvl3">
                     <a href="#i-takescreenshot">I.TakeScreenshot</a>
