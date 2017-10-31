@@ -138,7 +138,9 @@ public void OutValue()
 }
 ```
 
-Even though the two tests are equivalent, the use of `out` values integrates better with the fluent API of WbTstr. This is the recommended way of capturing elements. The same applies to capturing [page states](/api.html#i-capturepage).
+Even though the two tests are equivalent, the use of `out` values integrates better with the fluent API of WbTstr. This is the recommended way of capturing elements. 
+
+The same holds for to capturing [page states](/api.html#i-capturepage).
 <!-- end -->
 
 
@@ -146,7 +148,7 @@ Even though the two tests are equivalent, the use of `out` values integrates bet
 ## API
 
 ### Fluent
-The WbTstr API is a fluent interface, based on [FluentAutomation](https://github.com/stirno/FluentAutomation). This means that successive instructions can be chained, with the goal to create easily readable tests (illustrated below).
+The WbTstr API is a fluent interface, based on [FluentAutomation](https://github.com/stirno/FluentAutomation). This means that successive instructions can be chained, to create tests that are easy to follow (illustrated below).
 
 ```csharp
 I.Open("https://www.example.org")
