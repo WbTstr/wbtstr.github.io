@@ -49,10 +49,19 @@
         <article>
             <!-- start -->
 <h2 id="api">API</h2>
+<h3 id="fluent">Fluent</h3>
+<p>The WbTstr API is a fluent interface, based on <a href="https://github.com/stirno/FluentAutomation">FluentAutomation</a>. This means that successive instructions can be chained, with the goal to create easily readable tests (illustrated below).</p>
+<pre><code class="lang-csharp">I.Open(<span class="hljs-string">"https://www.example.org"</span>)
+    .Click(<span class="hljs-string">"#search-icon"</span>)
+    .Enter(<span class="hljs-string">"Apples"</span>).In(<span class="hljs-string">"#search-box"</span>)
+    .Type(Keys.Enter)
+    .Find(<span class="hljs-string">"#result:first-child"</span>, <span class="hljs-keyword">var</span> <span class="hljs-keyword">out</span> topResult)
+    .Click(topResult);
+</code></pre>
 <h3 id="instructions">Instructions</h3>
-<p>The WbTstr API provides X distinct types of instructions. Selectors, if required, must be specified as <a href="https://www.w3.org/TR/css3-selectors/">CSS selectors</a>.</p>
+<p>The WbTstr API provides 22 distinct instructions. Selectors must be specified as <a href="https://www.w3.org/TR/css3-selectors/">CSS selectors</a>.</p>
 <h4 id="i-append">I.Append</h4>
-<p>Append text in an input or textarea.</p>
+<p>Append text to an input or textarea.</p>
 <pre><code class="lang-csharp">I.Append(<span class="hljs-string">"Apples"</span>).In(<span class="hljs-string">"#element"</span>);
 
 I.Append(<span class="hljs-number">12</span>).In(<span class="hljs-string">"#element"</span>);
@@ -145,9 +154,9 @@ I.Hover(element);
 </code></pre>
 <h4 id="i-open">I.Open</h4>
 <p>Navigate to a specific URL.</p>
-<pre><code class="lang-csharp">I.Open(<span class="hljs-string">"https://mirabeau.nl/en"</span>);
+<pre><code class="lang-csharp">I.Open(<span class="hljs-string">"https://www.example.org"</span>);
 
-I.Open(<span class="hljs-keyword">new</span> Uri(<span class="hljs-string">"https://mirabeau.nl/en"</span>));
+I.Open(<span class="hljs-keyword">new</span> Uri(<span class="hljs-string">"https://www.example.org"</span>));
 </code></pre>
 <h4 id="i-resizewindow">I.ResizeWindow</h4>
 <p>Resizes the window</p>
@@ -204,6 +213,9 @@ I.WaitUntil(() =&gt; I.Find(<span class="hljs-string">"#element"</span>).Text ==
         <ol>
             <li class="nav-aside_lvl1">
                     <a href="#api">API</a>
+                </li>
+            <li class="nav-aside_lvl2">
+                    <a href="#fluent">Fluent</a>
                 </li>
             <li class="nav-aside_lvl2">
                     <a href="#instructions">Instructions</a>
