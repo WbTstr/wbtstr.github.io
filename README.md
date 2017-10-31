@@ -174,7 +174,7 @@ I.Append("Apples").In(element);
 ```
 
 #### I.Authenticate
-Performs a HTTP basic authentication. First waits until an alert window is present, and then enters the username and password.
+Performs a HTTP basic authentication. First waits until an alert window is present, then enters the username and password.
 
 ```csharp
 I.Authenticate("username", "password");
