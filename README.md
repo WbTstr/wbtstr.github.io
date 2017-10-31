@@ -2,19 +2,19 @@
 
 ## Overview
 <!-- start -->
-WbTstr is a tool which makes testing the web easy. It's based on Selenium WebDriver but with an much easier syntax. It allows teams to focus on Test Automation with as little hassle as possible. 
-<!-- end -->
+WbTstr is the successor of [WbTstr.Net](https://github.com/mirabeau-nl/WbTstr.Net), it's completely rewritten from scratch with extensibility in mind and by using the latest C# / .NET features. 
+Users of WbTstr are provided with an intuitive API that can be used to completely automate all facets of automated browser-based functional testing, without having to deal with the nitty-gritty details of Selenium.
 
+Noteworthy features include:
 
-<!-- start -->
-## Background
-We believe that Test Automation is a team effort. So coding your tests is the only right way of doing it.
-But we don't want to be distracted by syntax or timings. That's why we started WbTstr.
+- only uses native instructions to control browser instances: doesn't rely on JavaScript;
+- un-opinoinated towards choice of assertion framework, compatible with NUnit, xUnit and others;
+- access to the source of individual page elements for direct testing on HTML (e.g. with AngleSharp);
+- interact with cookies (read/write) and execute custom JavaScript (return values accessible in C#);
+- experimental support for HTTP Basic authentication through the browser's alert/pop-up window;
+- configurable WebDriver scope (browser instance per fixture, or per test case).
 
-WbTstr is a simple tool which let you create your tests in a fluent syntax within minutes.
-We built it on top of WebDriver which allows you to test in all major browsers.
-
-So let's get started [here](/guide.html)
+Head over to the [guide](/guide.html) to get started.
  
 <!-- end -->
 
