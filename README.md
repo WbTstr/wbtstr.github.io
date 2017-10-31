@@ -146,7 +146,7 @@ Even though the two tests are equivalent, the use of `out` values integrates bet
 ## API
 
 ### Instructions
-The WbTstr API provides X different instructions to issue to WebDrivers and control browser instances. This section will give an overview of all of these instructions.
+The WbTstr API provides X distinct types of instructions. Selectors, if required, must be specified as [CSS selectors](https://www.w3.org/TR/css3-selectors/).
 
 #### I.Append
 Append text in an input or textarea.
@@ -156,8 +156,16 @@ I.Append("Apples").In("#element");
 
 I.Append(12).In("#element");
 
-I.Find("#element", out var element)
-    .Append("Apples").In(element);
+I.Append("Apples").In(element);
+```
+
+#### I.Authenticate
+Performs a HTTP basic authentication. First waits until an alert window is present, and then enters the username and password.
+
+```csharp
+I.Authenticate("username", "password");
+
+I.Authenticate("username", "password", timeout);
 ```
 
 #### I.Click
@@ -166,8 +174,23 @@ Perform a single click on an element.
 ```csharp
 I.Click("#element");
 
-I.Find("#element", out var element)
-    .Click(element);
+I.Click(element);
+```
+
+#### I.CapturePage
+Captures the current state of the page.
+
+```csharp
+var page = I.CapturePage()
+
+I.CapturePage(out var page);
+```
+
+#### I.DeleteCookie
+Deletes a cookie.
+
+```csharp
+I.DeleteCookie("name");
 ```
 
 #### I.DoubleClick
@@ -176,17 +199,13 @@ Perform a double click on an element.
 ```csharp
 I.DoubleClick("#element");
 
-I.Find("#element", out var element)
-    .DoubleClick(element);
+I.DoubleClick(element);
 ```
 
 #### I.Drag
 Perform a drag interaction from a point A to a point B. Points can be either elements or a window coordinate (coordinates start at the left-upper).
 
 ```csharp
-var pointA = I.Find("#pointA");
-var pointB = I.Find("#pointB");
-
 I.Drag("#pointA").To("#pointB");
 I.Drag("#pointA").To(pointB);
 I.Drag("#pointA").To(100, 100);
@@ -201,19 +220,31 @@ I.Drag(100, 00).To(100, 100);
 ```
 
 #### I.Enter
-Enter text in an input or textarea. This will clear any previous texts.
+Enter text in an input or textarea. This will clear the target first.
 
 ```csharp
 I.Enter("Apples").In("#element");
 
 I.Enter(12).In("#element");
 
-I.Find("#element", out var element)
-    .Enter("Apples").In(element);
+I.Enter("Apples").In(element);
+```
+
+#### I.ExecuteJs
+Executes a JS script. Supported return types are: IElement, string, long and bool.
+
+```csharp
+var body = I.ExecuteJs<IElement>("return window.document.body");
+
+var tagName = I.ExecuteJs<string>("return window.document.body.tagName");
+
+long childElementCount = I.ExecuteJs<long>("return window.document.body.childElementCount");
+
+bool HasAttributes = I.ExecuteJs<bool>("return window.document.body.hasAttributes()");
 ```
 
 #### I.Find
-Capture a single element, based on a CSS selector.
+Capture a single element.
 
 ```csharp
 var element = I.Find("#element");
@@ -222,12 +253,12 @@ I.Find("#element", out var element);
 ```
 
 #### I.FindMultiple
-Capture multiple element, based on a CSS selector.
+Capture multiple element.
 
 ```csharp
-var elements = I.Find("#elements");
+var elements = I.FindMultiple("#elements");
 
-I.Find("#elements", out var elements);
+I.FindMultiple("#elements", out var elements);
 ```
 
 #### I.Focus
@@ -236,8 +267,7 @@ Focus on an element.
 ```csharp
 I.Focus("#element");
 
-I.Find("#element", out var element)
-    .Focus(element);
+I.Focus(element);
 ```
 
 #### I.Hover
@@ -246,8 +276,7 @@ Hover on an element.
 ```csharp
 I.Hover("#element");
 
-I.Find("#element", out var element)
-    .Hover(element);
+I.Hover(element);
 ```
 
 #### I.Open
@@ -259,7 +288,7 @@ I.Open("https://mirabeau.nl/en");
 I.Open(new Uri("https://mirabeau.nl/en"));
 ```
 
-### I.ResizeWindow
+#### I.ResizeWindow
 Resizes the window
 
 ```csharp
@@ -272,19 +301,27 @@ Perform a right/context click on an element.
 ```csharp
 I.RightClick("#element");
 
-I.Find("#element", out var element)
-    .RightClick(element);
+I.RightClick(element);
 ```
 
-### I.MaximizeWindow
+#### I.MaximizeWindow
 Maximizes the window
 
 ```csharp
 I.MaximizeWindow();
 ```
 
+#### I.SetCookie
+Add a cookie with the domain of the currently loaded website. Deletes cookies with the same name first.
+
+```csharp
+I.SetCookie("name", "value");
+
+I.SetCookie(CookieFactory.Create("name", "value"));
+```
+
 #### I.TakeScreenshot
-Take a screenshot and saves it to disk.
+Takes a screenshot and saves it to disk (as BMP, JPEG or PNG based on file extension).
 
 ```csharp
 I.TakeScreenshot("screenshot.png");
@@ -318,8 +355,6 @@ Wait until a predicate returns true.
 ```csharp
 I.WaitUntil(() => I.Find("#element").Displayed);
 
-var interval = TimeSpan.FromSeconds(3);
-var timeout = TimeSpan.FromSeconds(30);
 I.WaitUntil(() => I.Find("#element").Text == "Apple", interval, timeout)
 ```
 
