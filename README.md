@@ -34,36 +34,72 @@ We have the following contributors:
 ## Guide
 
 ### Install
-Just download the NuGet package and at least one driver, for example Chrome WebDriver.
+WbTstr is available from NuGet. You can either use the NuGet GUI within Visual Studio, or execute the following commands in the Package Manager Console, to install WbTstr.
 
-```csharp
+```powershell
 Install-Package WbTstr
 Install-Package WbTstr.Drivers.Chrome
 ```
 
-### Example test
+Be sure to also install at least one driver, we'll assume Chrome for the remainer of this guide.
+
+### Adding a fixture
+
+Below is shown a basic WbTstr fixture. Note that, although WbTstr is un-opinoinated towards choise of assertion framework, we're using NUnit for this guide.
 
 ```csharp   
-    namespace MyTest.Examples 
+namespace WbTstr.Examples 
+{
+    [TestFixture]
+    [WebDriverConfig(WebDriverType.Chrome)]
+    public class Fixture01 : WbTstrFixture
     {
-      public class MyFirstTest : FluentTest
-      {
-        public MyFirstTest()
-        {
-          WbTstr.Configure()
-          .PreferedBrowser().IsChrome();
-          WbTstr.Bootstrap();
-        }
-
         [TestCase]
-        public void Test1()
+        public void Test01()
         {
-           I.Open("http://www.mirabeau.nl");
-           I.Assert.Exists("H1");
+            I.Open("http://www.mirabeau.nl/en")
         }
-      }  
-    }
-```	
+    }  
+}
+```
+
+With the `WebDriverConfig` attribute we can specify the type of WebDriver we want to use for this fixture. 
+The `I` property inherited from the `WbTstrFixture` class can be used to issue instructions to the WebDriver.
+
+For more advanced configurations, we can add more arguments to the `WebDriverConfig` attribute, as shown below.
+The `WebDriverScope` defines the scope of the WebDriver. In this case a new browser instance will be started for each test (the default scope is `WebDriverScope.Fixture`).
+
+```csharp   
+namespace WbTstr.Examples 
+{
+    [TestFixture]
+    [WebDriverConfig(WebDriverType.Chrome, WebDriverScope.Test, preset: "preset1")]
+    public class Fixture01 : WbTstrFixture
+    {
+        [TestCase]
+        public void Test01()
+        {
+            I.Open("http://www.mirabeau.nl/en")
+        }
+    }  
+}
+```
+
+When a preset is specified, additional WebDriver-specific configuration will be loaded from _WbTstr.config_ (make sure to `Copy to Output Directory` to `Copy always` for this file, when used). It is, for example, possible to configure a proxy and/or pass arguments to the WebDriver executable:
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <webDriverConfig name="preset1">
+    <proxy>
+      <httpProxy>http://user:pass@proxy.example.org:1234</httpProxy>
+    </proxy>
+    <arguments>
+      <argument key="start-maximized" />
+    </arguments>
+  </webDriverConfig>
+</configuration>
+```
 
 <!-- end -->
 
