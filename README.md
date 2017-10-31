@@ -41,11 +41,11 @@ Install-Package WbTstr
 Install-Package WbTstr.Drivers.Chrome
 ```
 
-Be sure to also install at least one driver, we'll assume Chrome for the remainer of this guide.
+Be sure to also install at least one driver, we'll assume Chrome for the remainder of this guide.
 
-### Adding a fixture
+### Adding fixtures
 
-Below is shown a basic WbTstr fixture. Note that, although WbTstr is un-opinoinated towards choise of assertion framework, we're using NUnit for this guide.
+Below is shown a basic WbTstr fixture. Note that, although WbTstr is un-opinoinated towards choice of assertion framework, we're using NUnit for this guide.
 
 ```csharp   
 namespace WbTstr.Examples 
@@ -66,6 +66,8 @@ namespace WbTstr.Examples
 With the `WebDriverConfig` attribute we can specify the type of WebDriver we want to use for this fixture. 
 The `I` property inherited from the `WbTstrFixture` class can be used to issue instructions to the WebDriver.
 
+### Configuring fixtures
+
 For more advanced configurations, we can add more arguments to the `WebDriverConfig` attribute, as shown below.
 The `WebDriverScope` defines the scope of the WebDriver. In this case a new browser instance will be started for each test (the default scope is `WebDriverScope.Fixture`).
 
@@ -85,7 +87,7 @@ namespace WbTstr.Examples
 }
 ```
 
-When a preset is specified, additional WebDriver-specific configuration will be loaded from _WbTstr.config_ (make sure to `Copy to Output Directory` to `Copy always` for this file, when used). It is, for example, possible to configure a proxy and/or pass arguments to the WebDriver executable:
+When a configuration preset is provided, additional WebDriver-specific configuration will be loaded from _WbTstr.config_ (make sure to set the `Copy to Output Directory` property to `Copy always` for this file). It is, for example, possible to configure a proxy and/or pass arguments to the WebDriver executable:
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -100,6 +102,8 @@ When a preset is specified, additional WebDriver-specific configuration will be 
   </webDriverConfig>
 </configuration>
 ```
+
+Note that configuration presets can be reused by fixtures. For a complete overview of the configuration options, please see the [API reference](/api.html).
 
 <!-- end -->
 
