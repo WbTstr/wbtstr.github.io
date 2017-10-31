@@ -245,7 +245,7 @@ I.Enter("Apples").In(element);
 ```
 
 #### I.ExecuteJs
-Executes a JS script. Supported return types are: IElement, string, long and bool.
+Executes a JS expression. Supported return types are: IElement, string, long and bool.
 
 ```csharp
 var body = I.ExecuteJs<IElement>("return window.document.body");
