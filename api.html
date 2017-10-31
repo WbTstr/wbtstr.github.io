@@ -49,213 +49,131 @@
         <article>
             <!-- start -->
 <h2 id="api">API</h2>
-<h3 id="actions">Actions</h3>
-<p>We interchangeable use the terms <code>Action</code> and <code>Command</code> to refer to the same thing. This is because of terminology changes throughout the lifetime of the project.
-Actions are the units of work which manipulate state of the browser or the page.</p>
+<h3 id="instructions">Instructions</h3>
+<p>The WbTstr API provides X different instructions to issue to WebDrivers and control browser instances. This section will give an overview of all of these instructions.</p>
 <h4 id="i-append">I.Append</h4>
-<p>Append text to the current values of inputs and textareas. Automatically calls <code>ToString()</code> on non-string values to simplify tests.
-Using <code>WithoutEvents()</code> will cause the value to be set via JavaScript and will not trigger keyup/keydown events in the browser.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// Append text onto element value</span>
-I.Append(<span class="hljs-string">"Test!"</span>).In(<span class="hljs-string">"#searchBox"</span>);
+<p>Append text in an input or textarea.</p>
+<pre><code class="lang-csharp">I.Append(<span class="hljs-string">"Apples"</span>).In(<span class="hljs-string">"#element"</span>);
 
-<span class="hljs-comment">// Append text without keyup/keydown events</span>
-I.Append(<span class="hljs-string">"Test!"</span>).WithoutEvents().In(<span class="hljs-string">"#searchBox"</span>);
+I.Append(<span class="hljs-number">12</span>).In(<span class="hljs-string">"#element"</span>);
 
-<span class="hljs-comment">// Append an integer onto element value</span>
-I.Append(<span class="hljs-number">6</span>).In(<span class="hljs-string">"#quantity"</span>);
-
-<span class="hljs-comment">// Append text using cached reference to element</span>
-<span class="hljs-keyword">var</span> element = I.Find(<span class="hljs-string">"#searchBox"</span>);
-I.Append(<span class="hljs-string">"Test!"</span>).In(element);
+I.Find(<span class="hljs-string">"#element"</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> element)
+    .Append(<span class="hljs-string">"Apples"</span>).In(element);
 </code></pre>
 <h4 id="i-click">I.Click</h4>
-<p>Click an element by selector, coordinates or cached reference. Optionally provide an offset to click relative to the item.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// Click by element selector</span>
-I.Click(<span class="hljs-string">"#searchBox"</span>);
+<p>Perform a single click on an element.</p>
+<pre><code class="lang-csharp">I.Click(<span class="hljs-string">"#element"</span>);
 
-<span class="hljs-comment">// Click by x, y coordinates</span>
-I.Click(<span class="hljs-number">10</span>, <span class="hljs-number">100</span>);
-
-<span class="hljs-comment">// Click by relative offset from element selector</span>
-I.Click(<span class="hljs-string">"#searchBox"</span>, <span class="hljs-number">10</span>, <span class="hljs-number">100</span>);
-
-<span class="hljs-comment">// Click using cached reference to element.</span>
-<span class="hljs-keyword">var</span> element = I.Find(<span class="hljs-string">"#searchBox"</span>);
-I.Click(element);
+I.Find(<span class="hljs-string">"#element"</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> element)
+    .Click(element);
 </code></pre>
 <h4 id="i-doubleclick">I.DoubleClick</h4>
-<p>Double-click an element by selector, coordinates or cached reference. Optionally provide an offset to click relative to the item.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// DoubleClick by element selector</span>
-I.DoubleClick(<span class="hljs-string">"#searchBox"</span>);
+<p>Perform a double click on an element.</p>
+<pre><code class="lang-csharp">I.DoubleClick(<span class="hljs-string">"#element"</span>);
 
-<span class="hljs-comment">// DoubleClick by x, y coordinates</span>
-I.DoubleClick(<span class="hljs-number">10</span>, <span class="hljs-number">100</span>);
-
-<span class="hljs-comment">// DoubleClick by relative offset from element selector</span>
-I.DoubleClick(<span class="hljs-string">"#searchBox"</span>, <span class="hljs-number">10</span>, <span class="hljs-number">100</span>);
-
-<span class="hljs-comment">// DoubleClick using cached reference to element.</span>
-<span class="hljs-keyword">var</span> element = I.Find(<span class="hljs-string">"#searchBox"</span>);
-I.DoubleClick(element);
+I.Find(<span class="hljs-string">"#element"</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> element)
+    .DoubleClick(element);
 </code></pre>
 <h4 id="i-drag">I.Drag</h4>
-<p>Drag &amp; drop works with elements, coordinates and offsets. In the next version, the offset functionality will look a bit less... stupid. Sorry about that.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// Drag one element to another</span>
-I.Drag(<span class="hljs-string">"#drag"</span>).To(<span class="hljs-string">"#drop"</span>);
+<p>Perform a drag interaction from a point A to a point B. Points can be either elements or a window coordinate (coordinates start at the left-upper).</p>
+<pre><code class="lang-csharp"><span class="hljs-keyword">var</span> pointA = I.Find(<span class="hljs-string">"#pointA"</span>);
+<span class="hljs-keyword">var</span> pointB = I.Find(<span class="hljs-string">"#pointB"</span>);
 
-<span class="hljs-comment">// Drag one coordinate to another</span>
-I.Drag(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>).To(<span class="hljs-number">500</span>, <span class="hljs-number">500</span>);
+I.Drag(<span class="hljs-string">"#pointA"</span>).To(<span class="hljs-string">"#pointB"</span>);
+I.Drag(<span class="hljs-string">"#pointA"</span>).To(pointB);
+I.Drag(<span class="hljs-string">"#pointA"</span>).To(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>);
 
-<span class="hljs-comment">// Drag from element offset to another element</span>
-I.Drag(I.Find(<span class="hljs-string">"#drag"</span>), <span class="hljs-number">50</span>, <span class="hljs-number">50</span>).To(<span class="hljs-string">"#drop"</span>);
+I.Drag(pointA).To(<span class="hljs-string">"#pointB"</span>);
+I.Drag(pointA).To(pointB);
+I.Drag(pointA).To(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>);
 
-<span class="hljs-comment">// Drag from element to another elements offset</span>
-I.Drag(<span class="hljs-string">"#drag"</span>).To(I.Find(<span class="hljs-string">"#drop"</span>, <span class="hljs-number">100</span>, <span class="hljs-number">30</span>));
+I.Drag(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>).To(<span class="hljs-string">"#pointB"</span>);
+I.Drag(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>).To(pointB);
+I.Drag(<span class="hljs-number">100</span>, <span class="hljs-number">00</span>).To(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>);
 </code></pre>
 <h4 id="i-enter">I.Enter</h4>
-<p>Primary method of entering text into inputs and textareas. Automatically calls <code>ToString()</code> on non-string values to simplify tests.</p>
-<p>Using <code>WithoutEvents()</code> will cause the value to be set via JavaScript and will not trigger keyup/keydown events in the browser.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// Enter text into element</span>
-I.Enter(<span class="hljs-string">"Test!"</span>).In(<span class="hljs-string">"#searchBox"</span>);
+<p>Enter text in an input or textarea. This will clear any previous texts.</p>
+<pre><code class="lang-csharp">I.Enter(<span class="hljs-string">"Apples"</span>).In(<span class="hljs-string">"#element"</span>);
 
-<span class="hljs-comment">// Enter text without keyup/keydown events</span>
-I.Enter(<span class="hljs-string">"Test!"</span>).WithoutEvents().In(<span class="hljs-string">"#searchBox"</span>);
+I.Enter(<span class="hljs-number">12</span>).In(<span class="hljs-string">"#element"</span>);
 
-<span class="hljs-comment">// Enter an integer into element</span>
-I.Enter(<span class="hljs-number">6</span>).In(<span class="hljs-string">"#quantity"</span>);
-
-<span class="hljs-comment">// Enter text using cached reference to element</span>
-<span class="hljs-keyword">var</span> element = I.Find(<span class="hljs-string">"#searchBox"</span>);
-I.Enter(<span class="hljs-string">"Test!"</span>).In(element);
+I.Find(<span class="hljs-string">"#element"</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> element)
+    .Enter(<span class="hljs-string">"Apples"</span>).In(element);
 </code></pre>
 <h4 id="i-find">I.Find</h4>
-<p>Get a factory reference to an element. Returns a function that can be evaluated to return access to the underlying element. Used internally by all functions that target elements.</p>
-<p>A second method, <code>I.FindMultiple</code>, exists to retrieve a collection of elements at once. It provides the same factory function but returns an <code>IEnumerable</code> instead.</p>
-<p>Often this function is used to break through the abstraction and get direct access to the providers element representation. This can be necessary in some cases but using <code>I.Find</code> in this way is discouraged.</p>
-<p><strong>Warning:</strong> If you intend to cache an element, cache this function not its result. The result is not kept up to date with the current state of the page.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// Find element by selector</span>
-<span class="hljs-keyword">var</span> element = I.Find(<span class="hljs-string">"#searchBox"</span>);
+<p>Capture a single element, based on a CSS selector.</p>
+<pre><code class="lang-csharp"><span class="hljs-keyword">var</span> element = I.Find(<span class="hljs-string">"#element"</span>);
 
-<span class="hljs-comment">// Get reference to underlying IWebElement (Selenium)</span>
-<span class="hljs-keyword">var</span> webElement = element() <span class="hljs-keyword">as</span> OpenQA.Selenium.IWebElement;
+I.Find(<span class="hljs-string">"#element"</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> element);
+</code></pre>
+<h4 id="i-findmultiple">I.FindMultiple</h4>
+<p>Capture multiple element, based on a CSS selector.</p>
+<pre><code class="lang-csharp"><span class="hljs-keyword">var</span> elements = I.Find(<span class="hljs-string">"#elements"</span>);
 
-<span class="hljs-comment">// Get reference to underlying WatiN.Core.Element (WatiN)</span>
-<span class="hljs-keyword">var</span> webElement = element() <span class="hljs-keyword">as</span> WatiN.Core.Element;
-
-<span class="hljs-comment">// Find a collection of elements matching selector</span>
-<span class="hljs-keyword">var</span> listItems = I.FindMultiple(<span class="hljs-string">"li"</span>);
+I.Find(<span class="hljs-string">"#elements"</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> elements);
 </code></pre>
 <h4 id="i-focus">I.Focus</h4>
-<p>Set the browser&#39;s current focus to a specified element or cached reference to an element.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// Set browser focus by selector</span>
-I.Focus(<span class="hljs-string">"#searchBox"</span>);
+<p>Focus on an element.</p>
+<pre><code class="lang-csharp">I.Focus(<span class="hljs-string">"#element"</span>);
 
-<span class="hljs-comment">// Set browser focus using cached reference to element</span>
-<span class="hljs-keyword">var</span> element = I.Find(<span class="hljs-string">"#searchBox"</span>);
+I.Find(<span class="hljs-string">"#element"</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> element)
+    .Focus(element);
 </code></pre>
 <h4 id="i-hover">I.Hover</h4>
-<p>Cause the mouse to hover over a specified element, coordinates or position relative to an element.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// Hover over element</span>
-I.Hover(<span class="hljs-string">"#searchBox"</span>);
+<p>Hover on an element.</p>
+<pre><code class="lang-csharp">I.Hover(<span class="hljs-string">"#element"</span>);
 
-<span class="hljs-comment">// Hover over x, y coordinates</span>
-I.Hover(<span class="hljs-number">10</span>, <span class="hljs-number">100</span>);
-
-<span class="hljs-comment">// Hover over relative offset from element selector</span>
-I.Hover(<span class="hljs-string">"#searchBox"</span>, <span class="hljs-number">10</span>, <span class="hljs-number">100</span>);
-
-<span class="hljs-comment">// Hover using cached reference to element.</span>
-<span class="hljs-keyword">var</span> element = I.Find(<span class="hljs-string">"#searchBox"</span>);
-I.Hover(element);
+I.Find(<span class="hljs-string">"#element"</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> element)
+    .Hover(element);
 </code></pre>
 <h4 id="i-open">I.Open</h4>
-<p>Open and navigate the web browser to the specified URL or <a href="http://msdn.microsoft.com/en-us/library/system.uri(v=vs.110).aspx" target="_blank">Uri</a>. Using a Uri can be valuable to validate your URI fragment before using it in a test.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// Open browser via string/URL</span>
-I.Open(<span class="hljs-string">"http://google.com"</span>);
+<p>Navigate to a specific URL.</p>
+<pre><code class="lang-csharp">I.Open(<span class="hljs-string">"https://mirabeau.nl/en"</span>);
 
-<span class="hljs-comment">// Open browser via URI</span>
-I.Open(<span class="hljs-keyword">new</span> Uri(<span class="hljs-string">"http://google.com"</span>));
+I.Open(<span class="hljs-keyword">new</span> Uri(<span class="hljs-string">"https://mirabeau.nl/en"</span>));
 </code></pre>
-<h4 id="i-press">I.Press</h4>
-<p>Triggers a single OS level keypress event. This method will send events to whatever the active window is at the time its trigger, currently <strong>not guaranteed to be the actual browser window. Use with caution.</strong></p>
-<p>The intended use is for interactive with elements that steal focus or are not a part of the DOM such as Flash.</p>
-<p>Several keys require special values to be used. Refer to the <a href="http://msdn.microsoft.com/en-us/library/system.windows.forms.sendkeys.aspx" target="_blank">Windows Forms SendKeys documentation</a> for valid values.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// Press Tab key</span>
-I.Press(<span class="hljs-string">"{TAB}"</span>);
+<h3 id="i-resizewindow">I.ResizeWindow</h3>
+<p>Resizes the window</p>
+<pre><code class="lang-csharp">I.ResizeWindow(<span class="hljs-number">1920</span>, <span class="hljs-number">1080</span>);
 </code></pre>
 <h4 id="i-rightclick">I.RightClick</h4>
-<p>Right-click an element by selector, coordinates or cached reference. Optionally provide an offset to click relative to the item.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// RightClick by element selector</span>
-I.RightClick(<span class="hljs-string">"#searchBox"</span>);
+<p>Perform a right/context click on an element.</p>
+<pre><code class="lang-csharp">I.RightClick(<span class="hljs-string">"#element"</span>);
 
-<span class="hljs-comment">// RightClick by x, y coordinates</span>
-I.RightClick(<span class="hljs-number">10</span>, <span class="hljs-number">100</span>);
-
-<span class="hljs-comment">// RightClick by relative offset from element selector</span>
-I.RightClick(<span class="hljs-string">"#searchBox"</span>, <span class="hljs-number">10</span>, <span class="hljs-number">100</span>);
-
-<span class="hljs-comment">// RightClick using cached reference to element.</span>
-<span class="hljs-keyword">var</span> element = I.Find(<span class="hljs-string">"#searchBox"</span>);
-I.RightClick(element);
+I.Find(<span class="hljs-string">"#element"</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> element)
+    .RightClick(element);
 </code></pre>
-<h4 id="i-select">I.Select</h4>
-<p>Primary method of selecting items in <code>&lt;SELECT&gt;</code> elements found via selector or cached reference. Selection can be done using <code>&lt;OPTION&gt;</code> value, text or index.</p>
-<p>Selecting via Text/string will fall back to Value matching if no match is found. This simplifies the API for most users but may be confusing. If you need to guarantee the selection was based on value use the <code>Option</code> overload.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// Select option by Text</span>
-I.Select(<span class="hljs-string">"MN"</span>).From(<span class="hljs-string">"#states"</span>);
-
-<span class="hljs-comment">// Select option by index</span>
-I.Select(<span class="hljs-number">12</span>).From(<span class="hljs-string">"#states"</span>);
-
-<span class="hljs-comment">// Select option by value</span>
-I.Select(Option.Value, <span class="hljs-number">9999</span>).From(<span class="hljs-string">"#numbers"</span>);
-
-<span class="hljs-comment">// Select multiple options from a multiselect by text, index, or value</span>
-I.Select(<span class="hljs-string">"ND"</span>, <span class="hljs-string">"MN"</span>).From(<span class="hljs-string">"#states"</span>);
-I.Select(<span class="hljs-number">10</span>, <span class="hljs-number">11</span>, <span class="hljs-number">12</span>).From(<span class="hljs-string">"#states"</span>);
-I.Select(Option.Value, <span class="hljs-number">9998</span>, <span class="hljs-number">9999</span>).From(<span class="hljs-string">"#numbers"</span>);
+<h3 id="i-maximizewindow">I.MaximizeWindow</h3>
+<p>Maximizes the window</p>
+<pre><code class="lang-csharp">I.MaximizeWindow();
 </code></pre>
 <h4 id="i-takescreenshot">I.TakeScreenshot</h4>
-<p>Grab a quick screenshot of the current browser window and save it to disk. The screenshot path is configurable via <code>Settings.ScreenshotPath</code>.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// Take Screenshot</span>
-I.TakeScreenshot(<span class="hljs-string">"LoginScreen"</span>);
+<p>Take a screenshot and saves it to disk.</p>
+<pre><code class="lang-csharp">I.TakeScreenshot(<span class="hljs-string">"screenshot.png"</span>);
+
+I.TakeScreenshot(<span class="hljs-string">"screenshot.png"</span>, <span class="hljs-string">"%TEMP%"</span>);
 </code></pre>
 <h4 id="i-type">I.Type</h4>
-<p>Type a string, one character at a time using OS level keypress events. This functionality will send keypress events to whatever the active window is at the time its trigger, currently <strong>not guaranteed to be the actual browser window. Use with caution.</strong></p>
-<p>The intended use is for interactive with elements that steal focus or are not a part of the DOM such as Flash.</p>
-<p>Type does not support the use of special key values.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// Type string</span>
-I.Type(<span class="hljs-string">"Test!"</span>);
-</code></pre>
-<h4 id="i-upload">I.Upload</h4>
-<p>Upload a file using an <code>&lt;input type=&quot;file&quot;&gt;</code> on the current page. The provided path must be absolute and point to the file you want to upload.</p>
-<p>This has been used with several Flash uploaders without issue. Your mileage may vary.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// Upload LoginScreen.jpg</span>
-I.Upload(<span class="hljs-string">"input[type='file'].uploader"</span>, <span class="hljs-string">@"C:\LoginScreen"</span>);
+<p>Type a text, without specifiying a target.</p>
+<pre><code class="lang-csharp">I.Type(<span class="hljs-string">"Apples"</span>);
+
+I.Type(Keys.Enter);
 </code></pre>
 <h4 id="i-wait">I.Wait</h4>
-<p>Wait for a specified period of time before continuing the test. Method accepts a number of seconds or a <a href="http://msdn.microsoft.com/en-us/library/system.timespan(v=vs.110).aspx" target="_blank">TimeSpan</a>. Not guaranteed to be exact.</p>
-<p>In most cases, your tests will be less fragile if you can utilize <a href="#i-waituntil">I.WaitUntil</a> instead.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// Wait for 10 seconds</span>
-I.Wait(<span class="hljs-number">10</span>);
+<p>Wait for a specific period of time.</p>
+<pre><code class="lang-csharp">I.Wait(<span class="hljs-number">5000</span>);
 
-<span class="hljs-comment">// Wait for 500 milliseconds</span>
-I.Wait(TimeSpan.FromMilliseconds(<span class="hljs-number">500</span>));
+I.Wait(seconds: <span class="hljs-number">5</span>);
+
+I.Wait(TimeSpan.FromSeconds(<span class="hljs-number">5</span>));
 </code></pre>
 <h4 id="i-waituntil">I.WaitUntil</h4>
-<p>Recommended method of waiting in tests. Conditional wait using anonymous functions that either return <code>true</code> / <code>false</code> or throw an <code>Exception</code> when the condition has not been met. Useful when content on the page is loaded dynamically or changes state during interactions.</p>
-<p>If the condition has not been met, a timed wait will be executed before testing the condition again. The duration if this wait is set in <code>Settings.DefaultWaitUntilThreadSleep</code>.</p>
-<p>The condition must succeed within the time set in <code>Settings.DefaultWaitUntilTimeout</code> or the test will fail.</p>
-<p>Important Note: Most actions have implicit WaitUntil functionality built-in. Before adding, be sure your test needs it.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// WaitUntil element exists</span>
-I.WaitUntil(() =&gt; I.Assert.Exists(<span class="hljs-string">"#searchBar"</span>));
+<p>Wait until a predicate returns true.</p>
+<pre><code class="lang-csharp">I.WaitUntil(() =&gt; I.Find(<span class="hljs-string">"#element"</span>).Displayed);
 
-<span class="hljs-comment">// WaitUntil element has attribute 'data-loaded'</span>
-I.WaitUntil(() =&gt;
-    I.Find(<span class="hljs-string">"#searchBar"</span>)()
-        .Attributes
-        .Get(<span class="hljs-string">"data-loaded"</span>) == <span class="hljs-string">"true"</span>
-);
+<span class="hljs-keyword">var</span> interval = TimeSpan.FromSeconds(<span class="hljs-number">3</span>);
+<span class="hljs-keyword">var</span> timeout = TimeSpan.FromSeconds(<span class="hljs-number">30</span>);
+I.WaitUntil(() =&gt; I.Find(<span class="hljs-string">"#element"</span>).Text == <span class="hljs-string">"Apple"</span>, interval, timeout)
 </code></pre>
 <!-- end -->
         </article>
@@ -268,7 +186,7 @@ I.WaitUntil(() =&gt;
                     <a href="#api">API</a>
                 </li>
             <li class="nav-aside_lvl2">
-                    <a href="#actions">Actions</a>
+                    <a href="#instructions">Instructions</a>
                 </li>
             <li class="nav-aside_lvl3">
                     <a href="#i-append">I.Append</a>
@@ -289,6 +207,9 @@ I.WaitUntil(() =&gt;
                     <a href="#i-find">I.Find</a>
                 </li>
             <li class="nav-aside_lvl3">
+                    <a href="#i-findmultiple">I.FindMultiple</a>
+                </li>
+            <li class="nav-aside_lvl3">
                     <a href="#i-focus">I.Focus</a>
                 </li>
             <li class="nav-aside_lvl3">
@@ -297,23 +218,20 @@ I.WaitUntil(() =&gt;
             <li class="nav-aside_lvl3">
                     <a href="#i-open">I.Open</a>
                 </li>
-            <li class="nav-aside_lvl3">
-                    <a href="#i-press">I.Press</a>
+            <li class="nav-aside_lvl2">
+                    <a href="#i-resizewindow">I.ResizeWindow</a>
                 </li>
             <li class="nav-aside_lvl3">
                     <a href="#i-rightclick">I.RightClick</a>
                 </li>
-            <li class="nav-aside_lvl3">
-                    <a href="#i-select">I.Select</a>
+            <li class="nav-aside_lvl2">
+                    <a href="#i-maximizewindow">I.MaximizeWindow</a>
                 </li>
             <li class="nav-aside_lvl3">
                     <a href="#i-takescreenshot">I.TakeScreenshot</a>
                 </li>
             <li class="nav-aside_lvl3">
                     <a href="#i-type">I.Type</a>
-                </li>
-            <li class="nav-aside_lvl3">
-                    <a href="#i-upload">I.Upload</a>
                 </li>
             <li class="nav-aside_lvl3">
                     <a href="#i-wait">I.Wait</a>
