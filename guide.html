@@ -61,10 +61,10 @@ Install-Package WbTstr.Drivers.Chrome
 {
     [<span class="hljs-meta">TestFixture</span>]
     [<span class="hljs-meta">WebDriverConfig(WebDriverType.Chrome)</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Fixture01</span> : <span class="hljs-title">WbTstrFixture</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Fixture</span> : <span class="hljs-title">WbTstrFixture</span>
     {
         [<span class="hljs-meta">TestCase</span>]
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Test01</span>(<span class="hljs-params"></span>)
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Test</span>(<span class="hljs-params"></span>)
         </span>{
             I.Open(<span class="hljs-string">"http://www.mirabeau.nl/en"</span>)
         }
@@ -80,10 +80,10 @@ The <code>WebDriverScope</code> defines the scope of the WebDriver. In this case
 {
     [<span class="hljs-meta">TestFixture</span>]
     [<span class="hljs-meta">WebDriverConfig(WebDriverType.Chrome, WebDriverScope.Test, preset: <span class="hljs-meta-string">"preset1"</span>)</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Fixture01</span> : <span class="hljs-title">WbTstrFixture</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Fixture</span> : <span class="hljs-title">WbTstrFixture</span>
     {
         [<span class="hljs-meta">TestCase</span>]
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Test01</span>(<span class="hljs-params"></span>)
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Test</span>(<span class="hljs-params"></span>)
         </span>{
             I.Open(<span class="hljs-string">"http://www.mirabeau.nl/en"</span>)
         }
@@ -103,7 +103,40 @@ The <code>WebDriverScope</code> defines the scope of the WebDriver. In this case
   <span class="hljs-tag">&lt;/<span class="hljs-name">webDriverConfig</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span>
 </code></pre>
-<p>Note that configuration presets can be reused by fixtures. For a complete overview of the configuration options, please see the <a href="/api.html">API reference</a>.</p>
+<p>Note that configuration presets can be reused among fixtures. For a complete overview of the configuration options, please consult the <a href="/api.html">API reference</a>.</p>
+<h3 id="capture-elements">Capture elements</h3>
+<p>WbTstr supports capturing of page elements, through CSS selectors, in two ways: <code>return</code> or <code>out</code> values. The two tests below demostrate the two variants. </p>
+<pre><code class="lang-csharp">[<span class="hljs-meta">TestCase</span>]
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ReturnValue</span>(<span class="hljs-params"></span>)
+</span>{
+    <span class="hljs-comment">// Arrange</span>
+    <span class="hljs-keyword">string</span> selector = <span class="hljs-string">"#element"</span>;
+
+    <span class="hljs-comment">// Act</span>
+    I.Open(<span class="hljs-string">"http://www.mirabeau.nl/en"</span>)
+    <span class="hljs-keyword">var</span> element = I.Find(selector)
+    I.Click(element);
+
+    <span class="hljs-comment">// Assert</span>
+    Assert.AreEqual(selector, element.Selector);
+}
+
+[<span class="hljs-meta">TestCase</span>]
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OutValue</span>(<span class="hljs-params"></span>)
+</span>{
+    <span class="hljs-comment">// Arrange</span>
+    <span class="hljs-keyword">string</span> selector = <span class="hljs-string">"#element"</span>;
+
+    <span class="hljs-comment">// Act</span>
+    I.Open(<span class="hljs-string">"http://www.mirabeau.nl/en"</span>)
+        .Find(selector, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> element)
+        .Click(element);
+
+    <span class="hljs-comment">// Assert</span>
+    Assert.AreEqual(selector, element.Selector);
+}
+</code></pre>
+<p>Even though the two tests are equivalent, the use of <code>out</code> integrates better with the fluent API of WbTstr. This is the recommended way of capturing elements.</p>
 <!-- end -->
         </article>
     </main>
@@ -122,6 +155,9 @@ The <code>WebDriverScope</code> defines the scope of the WebDriver. In this case
                 </li>
             <li class="nav-aside_lvl2">
                     <a href="#configuration">Configuration</a>
+                </li>
+            <li class="nav-aside_lvl2">
+                    <a href="#capture-elements">Capture elements</a>
                 </li>
             
         </ol>
