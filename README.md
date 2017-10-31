@@ -55,7 +55,7 @@ namespace WbTstr.Examples
         [TestCase]
         public void Test()
         {
-            I.Open("http://www.mirabeau.nl/en")
+            I.Open("http://www.example.org")
         }
     }  
 }
@@ -79,7 +79,7 @@ namespace WbTstr.Examples
         [TestCase]
         public void Test()
         {
-            I.Open("http://www.mirabeau.nl/en")
+            I.Open("http://www.example.org")
         }
     }  
 }
@@ -114,7 +114,7 @@ public void ReturnValue()
     string selector = "#element";
 
     // Act
-    I.Open("http://www.mirabeau.nl/en")
+    I.Open("http://www.example.org")
     var element = I.Find(selector)
     I.Click(element);
 
@@ -129,7 +129,7 @@ public void OutValue()
     string selector = "#element";
 
     // Act
-    I.Open("http://www.mirabeau.nl/en")
+    I.Open("http://www.example.org")
         .Find(selector, out var element)
         .Click(element);
 
@@ -145,11 +145,23 @@ Even though the two tests are equivalent, the use of `out` values integrates bet
 <!-- start -->
 ## API
 
+### Fluent
+The WbTstr API is a fluent interface, based on [FluentAutomation](https://github.com/stirno/FluentAutomation). This means that successive instructions can be chained, with the goal to create easily readable tests (illustrated below).
+
+```csharp
+I.Open("https://www.example.org")
+    .Click("#search-icon")
+    .Enter("Apples").In("#search-box")
+    .Type(Keys.Enter)
+    .Find("#result:first-child", var out topResult)
+    .Click(topResult);
+```
+
 ### Instructions
-The WbTstr API provides X distinct types of instructions. Selectors, if required, must be specified as [CSS selectors](https://www.w3.org/TR/css3-selectors/).
+The WbTstr API provides 22 distinct instructions. Selectors must be specified as [CSS selectors](https://www.w3.org/TR/css3-selectors/).
 
 #### I.Append
-Append text in an input or textarea.
+Append text to an input or textarea.
 
 ```csharp
 I.Append("Apples").In("#element");
@@ -283,9 +295,9 @@ I.Hover(element);
 Navigate to a specific URL.
 
 ```csharp
-I.Open("https://mirabeau.nl/en");
+I.Open("https://www.example.org");
 
-I.Open(new Uri("https://mirabeau.nl/en"));
+I.Open(new Uri("https://www.example.org"));
 ```
 
 #### I.ResizeWindow
