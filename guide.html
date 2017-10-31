@@ -50,30 +50,57 @@
             <!-- start -->
 <h2 id="guide">Guide</h2>
 <h3 id="install">Install</h3>
-<p>Just download the NuGet package and at least one driver, for example Chrome WebDriver.</p>
-<pre><code class="lang-csharp">Install-Package WbTstr
+<p>WbTstr is available from NuGet. You can either use the NuGet GUI within Visual Studio, or execute the following commands in the Package Manager Console, to install WbTstr.</p>
+<pre><code class="lang-powershell">Install-Package WbTstr
 Install-Package WbTstr.Drivers.Chrome
 </code></pre>
-<h3 id="example-test">Example test</h3>
-<pre><code class="lang-csharp">    <span class="hljs-keyword">namespace</span> <span class="hljs-title">MyTest.Examples</span> 
+<p>Be sure to also install at least one driver, we&#39;ll assume Chrome for the remainer of this guide.</p>
+<h3 id="adding-a-fixture">Adding a fixture</h3>
+<p>Below is shown a basic WbTstr fixture. Note that, although WbTstr is un-opinoinated towards choise of assertion framework, we&#39;re using NUnit for this guide.</p>
+<pre><code class="lang-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">WbTstr.Examples</span> 
+{
+    [<span class="hljs-meta">TestFixture</span>]
+    [<span class="hljs-meta">WebDriverConfig(WebDriverType.Chrome)</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Fixture01</span> : <span class="hljs-title">WbTstrFixture</span>
     {
-      <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyFirstTest</span> : <span class="hljs-title">FluentTest</span>
-      {
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyFirstTest</span>(<span class="hljs-params"></span>)
-        </span>{
-          WbTstr.Configure()
-          .PreferedBrowser().IsChrome();
-          WbTstr.Bootstrap();
-        }
-
         [<span class="hljs-meta">TestCase</span>]
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Test1</span>(<span class="hljs-params"></span>)
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Test01</span>(<span class="hljs-params"></span>)
         </span>{
-           I.Open(<span class="hljs-string">"http://www.mirabeau.nl"</span>);
-           I.Assert.Exists(<span class="hljs-string">"H1"</span>);
+            I.Open(<span class="hljs-string">"http://www.mirabeau.nl/en"</span>)
         }
-      }  
-    }
+    }  
+}
+</code></pre>
+<p>With the <code>WebDriverConfig</code> attribute we can specify the type of WebDriver we want to use for this fixture. 
+The <code>I</code> property inherited from the <code>WbTstrFixture</code> class can be used to issue instructions to the WebDriver.</p>
+<p>For more advanced configurations, we can add more arguments to the <code>WebDriverConfig</code> attribute, as shown below.
+The <code>WebDriverScope</code> defines the scope of the WebDriver. In this case a new browser instance will be started for each test (the default scope is <code>WebDriverScope.Fixture</code>).</p>
+<pre><code class="lang-csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">WbTstr.Examples</span> 
+{
+    [<span class="hljs-meta">TestFixture</span>]
+    [<span class="hljs-meta">WebDriverConfig(WebDriverType.Chrome, WebDriverScope.Test, preset: <span class="hljs-meta-string">"preset1"</span>)</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Fixture01</span> : <span class="hljs-title">WbTstrFixture</span>
+    {
+        [<span class="hljs-meta">TestCase</span>]
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Test01</span>(<span class="hljs-params"></span>)
+        </span>{
+            I.Open(<span class="hljs-string">"http://www.mirabeau.nl/en"</span>)
+        }
+    }  
+}
+</code></pre>
+<p>When a preset is specified, additional WebDriver-specific configuration will be loaded from <em>WbTstr.config</em> (make sure to <code>Copy to Output Directory</code> to <code>Copy always</code> for this file, when used). It is, for example, possible to configure a proxy and/or pass arguments to the WebDriver executable:</p>
+<pre><code class="lang-xml"><span class="php"><span class="hljs-meta">&lt;?</span>xml version=<span class="hljs-string">"1.0"</span> encoding=<span class="hljs-string">"utf-8"</span> <span class="hljs-meta">?&gt;</span></span>
+<span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">webDriverConfig</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"preset1"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">proxy</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">httpProxy</span>&gt;</span>http://user:pass@proxy.example.org:1234<span class="hljs-tag">&lt;/<span class="hljs-name">httpProxy</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">proxy</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">arguments</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">argument</span> <span class="hljs-attr">key</span>=<span class="hljs-string">"start-maximized"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">arguments</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">webDriverConfig</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span>
 </code></pre>
 <!-- end -->
         </article>
@@ -89,7 +116,7 @@ Install-Package WbTstr.Drivers.Chrome
                     <a href="#install">Install</a>
                 </li>
             <li class="nav-aside_lvl2">
-                    <a href="#example-test">Example test</a>
+                    <a href="#adding-a-fixture">Adding a fixture</a>
                 </li>
             
         </ol>
