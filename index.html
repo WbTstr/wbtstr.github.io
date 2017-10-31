@@ -51,16 +51,18 @@
         <article class="layout__main_content">
             <h1>Overview</h1>
             <!-- start -->
-<p>WbTstr is a tool which makes testing the web easy. It&#39;s based on Selenium WebDriver but with an much easier syntax. It allows teams to focus on Test Automation with as little hassle as possible. 
-<!-- end --></p>
-
-            <!-- start -->
-<h2 id="background">Background</h2>
-<p>We believe that Test Automation is a team effort. So coding your tests is the only right way of doing it.
-But we don&#39;t want to be distracted by syntax or timings. That&#39;s why we started WbTstr.</p>
-<p>WbTstr is a simple tool which let you create your tests in a fluent syntax within minutes.
-We built it on top of WebDriver which allows you to test in all major browsers.</p>
-<p>So let&#39;s get started <a href="/guide.html">here</a></p>
+<p>WbTstr is the successor of <a href="https://github.com/mirabeau-nl/WbTstr.Net">WbTstr.Net</a>, it&#39;s completely rewritten from scratch with extensibility in mind and by using the latest C# / .NET features. 
+Users of WbTstr are provided with an intuitive API that can be used to completely automate all facets of automated browser-based functional testing, without having to deal with the nitty-gritty details of Selenium.</p>
+<p>Noteworthy features include:</p>
+<ul>
+<li>only uses native instructions to control browser instances: doesn&#39;t rely on JavaScript;</li>
+<li>un-opinoinated towards choice of assertion framework, compatible with NUnit, xUnit and others;</li>
+<li>access to the source of individual page elements for direct testing on HTML (e.g. with AngleSharp);</li>
+<li>interact with cookies (read/write) and execute custom JavaScript (return values accessible in C#);</li>
+<li>experimental support for HTTP Basic authentication through the browser&#39;s alert/pop-up window;</li>
+<li>configurable WebDriver scope (browser instance per fixture, or per test case).</li>
+</ul>
+<p>Head over to the <a href="/guide.html">guide</a> to get started.</p>
 <!-- end -->
             <!-- start -->
 <h2 id="contributors">Contributors</h2>
@@ -72,6 +74,35 @@ We built it on top of WebDriver which allows you to test in all major browsers.<
 <li><a href="https://github.com/rickvanschalkwijk">@rickvanschalkwijk</a><!-- end --></li>
 </ul>
 
+            <!-- start -->
+<h2 id="guide">Guide</h2>
+<h3 id="install">Install</h3>
+<p>Just download the NuGet package and at least one driver, for example Chrome WebDriver.</p>
+<pre><code class="lang-csharp">Install-Package WbTstr
+Install-Package WbTstr.Drivers.Chrome
+</code></pre>
+<h3 id="example-test">Example test</h3>
+<pre><code class="lang-csharp">    <span class="hljs-keyword">namespace</span> <span class="hljs-title">MyTest.Examples</span> 
+    {
+      <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyFirstTest</span> : <span class="hljs-title">FluentTest</span>
+      {
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyFirstTest</span>(<span class="hljs-params"></span>)
+        </span>{
+          WbTstr.Configure()
+          .PreferedBrowser().IsChrome();
+          WbTstr.Bootstrap();
+        }
+
+        [<span class="hljs-meta">TestCase</span>]
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Test1</span>(<span class="hljs-params"></span>)
+        </span>{
+           I.Open(<span class="hljs-string">"http://www.mirabeau.nl"</span>);
+           I.Assert.Exists(<span class="hljs-string">"H1"</span>);
+        }
+      }  
+    }
+</code></pre>
+<!-- end -->
         </article>
     </main>
 
