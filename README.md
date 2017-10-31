@@ -2,17 +2,17 @@
 
 ## Overview
 <!-- start -->
-WbTstr is the successor of [WbTstr.Net](https://github.com/mirabeau-nl/WbTstr.Net), it's completely rewritten from scratch with extensibility in mind and by using the latest C# / .NET features. 
+WbTstr is the successor of [WbTstr.Net](https://github.com/mirabeau-nl/WbTstr.Net). It's completely rewritten from scratch with extensibility in mind, using the latest C# / .NET features.
 Users of WbTstr are provided with an intuitive API that can be used to completely automate all facets of automated browser-based functional testing, without having to deal with the nitty-gritty details of Selenium.
 
-Noteworthy features include:
+Noteworthy functionalities include:
 
-- only uses native instructions to control browser instances: doesn't rely on JavaScript;
-- un-opinoinated towards choice of assertion framework, compatible with NUnit, xUnit and others;
-- access to the source of individual page elements for direct testing on HTML (e.g. with AngleSharp);
-- interact with cookies (read/write) and execute custom JavaScript (return values accessible in C#);
-- experimental support for HTTP Basic authentication through the browser's alert/pop-up window;
-- configurable WebDriver scope (browser instance per fixture, or per test case).
+- only uses native instructions to control browser instances;
+- un-opinoinated towards choice of assertion framework;
+- access to HTML of individual page elements;
+- read/write access to cookies and execution of custom JavaScript;
+- native support for HTTP Basic authentication;
+- configurable WebDriver scope (instance per fixture, or per test).
 
 Head over to the [guide](/guide.html) to get started.
  

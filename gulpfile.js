@@ -81,10 +81,9 @@ function getReadmeSections(markdown) {
     const parts = markdown.match(/<!-- start -->(?:(?!<!-- end -->)[\s\S])*<!-- end -->/g);
     return {
         overview: parts[0],
-        introduction: parts[1],
-        authors: parts[2],
-        guide: parts[3],
-        api: parts[4]
+        authors: parts[1],
+        guide: parts[2],
+        api: parts[3]
     };
 }
 
