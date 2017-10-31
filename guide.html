@@ -105,7 +105,7 @@ The <code>WebDriverScope</code> defines the scope of the WebDriver. In this case
 </code></pre>
 <p>Note that configuration presets can be reused among fixtures. For a complete overview of the configuration options, please consult the <a href="/api.html">API reference</a>.</p>
 <h3 id="capture-elements">Capture elements</h3>
-<p>WbTstr supports capturing of page elements, through CSS selectors, in two ways: <code>return</code> or <code>out</code> values. The two tests below demostrate the two variants. </p>
+<p>WbTstr supports capturing page elements, through CSS selectors, in two ways: <code>return</code> or <code>out</code> values. This is demonstrated by the two tests below.</p>
 <pre><code class="lang-csharp">[<span class="hljs-meta">TestCase</span>]
 <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ReturnValue</span>(<span class="hljs-params"></span>)
 </span>{
@@ -136,7 +136,7 @@ The <code>WebDriverScope</code> defines the scope of the WebDriver. In this case
     Assert.AreEqual(selector, element.Selector);
 }
 </code></pre>
-<p>Even though the two tests are equivalent, the use of <code>out</code> integrates better with the fluent API of WbTstr. This is the recommended way of capturing elements.</p>
+<p>Even though the two tests are equivalent, the use of <code>out</code> integrates better with the fluent API of WbTstr. This is the recommended way of capturing elements. The same applies to capturing page states, see the <a href="/api.html">API reference</a> for more information.</p>
 <!-- end -->
         </article>
     </main>
