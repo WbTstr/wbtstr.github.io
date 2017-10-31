@@ -69,7 +69,7 @@ I.Append(<span class="hljs-number">12</span>).In(<span class="hljs-string">"#ele
 I.Append(<span class="hljs-string">"Apples"</span>).In(element);
 </code></pre>
 <h4 id="i-authenticate">I.Authenticate</h4>
-<p>Performs a HTTP basic authentication. First waits until an alert window is present, and then enters the username and password.</p>
+<p>Performs a HTTP basic authentication. First waits until an alert window is present, then enters the username and password.</p>
 <pre><code class="lang-csharp">I.Authenticate(<span class="hljs-string">"username"</span>, <span class="hljs-string">"password"</span>);
 
 I.Authenticate(<span class="hljs-string">"username"</span>, <span class="hljs-string">"password"</span>, timeout);
@@ -119,7 +119,7 @@ I.Enter(<span class="hljs-number">12</span>).In(<span class="hljs-string">"#elem
 I.Enter(<span class="hljs-string">"Apples"</span>).In(element);
 </code></pre>
 <h4 id="i-executejs">I.ExecuteJs</h4>
-<p>Executes a JS script. Supported return types are: IElement, string, long and bool.</p>
+<p>Executes a JS expression. Supported return types are: IElement, string, long and bool.</p>
 <pre><code class="lang-csharp"><span class="hljs-keyword">var</span> body = I.ExecuteJs&lt;IElement&gt;(<span class="hljs-string">"return window.document.body"</span>);
 
 <span class="hljs-keyword">var</span> tagName = I.ExecuteJs&lt;<span class="hljs-keyword">string</span>&gt;(<span class="hljs-string">"return window.document.body.tagName"</span>);
