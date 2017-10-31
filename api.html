@@ -49,138 +49,6 @@
         <article>
             <!-- start -->
 <h2 id="api">API</h2>
-<h3 id="configuration">Configuration</h3>
-<p>The WbTstr class provides a fluent interface to configure WbTstr.Net</p>
-<h4 id="basic-usage">Basic usage</h4>
-<p>In the most basic setup, the WbTstr class can be used to specify the webdriver that needs to be used.</p>
-<pre><code class="lang-csharp">    WbTstr.Configure()
-        .UseWebDriver(SeleniumWebDriver.Browser.Chrome)
-        .BootstrapInstance();
-</code></pre>
-<p>Calling the <em>.Configure</em> method initializes the WbTstr class for configuration, the <em>.BootstrapInstance</em> and <em>.Bootstrap</em> methods must be called to finalize the configuration. Recommended is to configure WbTstr from a shared base test class. </p>
-<p>It is also possible to configure WbTstr using a configuration file (app.config). When using only file based configuration it is no longer required to call the <em>.Configure</em> method. However, you can still use it to override file based configuration. It is still required to call the <em>.Bootstrap</em> method, as in the example below. </p>
-<pre><code class="lang-csharp">    &lt;appSettings&gt;
-        &lt;<span class="hljs-keyword">add</span> key=<span class="hljs-string">"WbTstr:UseWebDriver"</span> <span class="hljs-keyword">value</span>=<span class="hljs-string">"Chrome"</span> /&gt;
-    &lt;/appSettings&gt;
-
-    WbTstr.Boostrap();
-</code></pre>
-<h4 id="configure-browserstack">Configure BrowserStack</h4>
-<p>The WbTstr class can also be used to configure BrowserStack, instead of calling the <em>.UseWebDriver</em> method the <em>.UseBrowserStackAsRemoteDriver</em> method is called. An example is shown below.</p>
-<pre><code class="lang-csharp">    WbTstr.Configure()
-        .UseBrowserStackAsRemoteDriver()
-        .SetBrowserStackCredentials(<span class="hljs-string">"usr"</span>, <span class="hljs-string">"pwd"</span>)    <span class="hljs-comment">// Recommendation: put credentials in a config file.</span>
-        .EnableBrowserStackLocal()                   
-        .BootstrapInstance();
-</code></pre>
-<p>When calling the <em>.EnableBrowserStackLocal</em> method, WbTstr will setup <a href="https://www.browserstack.com/local-testing">BrowserStack Local</a> for testing on private networks.</p>
-<p>A few handy methods are added to set BrowserStack capabilities:</p>
-<pre><code class="lang-csharp">    WbTstr.Configure()
-        .UseBrowserStackAsRemoteDriver()
-        .PreferedBrowser().IsChrome()
-        .PreferedOperatingSystem().IsWindows()
-        .PreferedScreenResolution().IsAny()
-        .EnableBrowserStackProjectGrouping(<span class="hljs-string">"projectName"</span>)
-        .SetBrowserStackBuildIdentifier(<span class="hljs-string">"buildIdentification"</span>)
-        .BootstrapInstance();
-</code></pre>
-<p>For more information about these capabilities, see the BrowserStack <a href="https://www.browserstack.com/automate/capabilities">capabilities documentation</a>.</p>
-<h4 id="adding-custom-capabilities">Adding custom capabilities</h4>
-<p>Additional selenium, BrowserStack and/or custom capabilities can be added with the .<em>SetCapability</em> method.</p>
-<pre><code class="lang-csharp">    WbTstr.Configure()
-        .SetCapability(<span class="hljs-string">"deviceOrientation"</span>, <span class="hljs-string">"landscape"</span>)
-        .BootstrapInstance();
-</code></pre>
-<h4 id="file-based-configuration">File based configuration</h4>
-<p>The following tables shows what can be configured using file based configuration (more will be added).</p>
-<table>
-<thead>
-<tr>
-<th>Key</th>
-<th>Options</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>EnableDebug</td>
-<td>false / true</td>
-</tr>
-<tr>
-<td>UseWebDriver</td>
-<td>Chrome / InternetExplorer / InternetExplorer64 / Firefox / PhantomJs / Safari</td>
-</tr>
-<tr>
-<td>EnableDryRun</td>
-<td>true / false</td>
-</tr>
-<tr>
-<td>EnableBrowserStackLocal</td>
-<td>true / false</td>
-</tr>
-<tr>
-<td>BrowserStackProject</td>
-<td>non-empty string</td>
-</tr>
-</tbody>
-</table>
-<p>WbTstr will first look for environment variables before looking in the configuration file.</p>
-<h3 id="page-objects">Page Objects</h3>
-<p>Anyone who has done any serious amount of automated testing will tell you that the largest challenge we all face is fragile, hard to maintain tests.</p>
-<p>To combat this, it can be useful to use <code>PageObject</code> to group your actions/expects/asserts. This gives you functional code that can be reused in any number of tests.</p>
-<p>With the new first-class <code>PageObject</code> support, we provide some simple but useful built-in functions such as <code>Go</code> and <code>Switch</code>. Also included, a validation function tied to the <code>this.At</code> property.</p>
-<p>Any time a <code>PageObject</code> navigation is triggered, or any time <code>Switch</code> is used, the included <code>At</code> function will execute providing an easy hook to make sure all tests execute with the underlying browser and application in the same state, every time.</p>
-<p>If you have any ideas for or comments on the new <code>PageObject</code> functionality, let us know! It&#39;s a new feature and we&#39;d love some feedback.</p>
-<pre><code class="lang-csharp">public class HomePage : PageObject&lt;HomePage&gt;
-{
-    public HomePage(FluentTest test)
-        : base(test)
-    {
-        Url = "http://www.mirabeau.nl";
-        At = () =&gt;; I.Expect.Exists("H1");
-    }
-
-    public HomePage OpenContactPage()
-    {
-        I.Click("#nav a[href='/nl-nl/contact']");
-        return this.Switch&lt;ContactPage&gt;();
-    }
-}
-
-public class ContactPage : PageObject&lt;ContactPage&gt;
-{
-    public ContactPage(FluentTest test)
-        : base(test)
-    {
-        At = () =&gt; I.Expect.Exists(".locations");
-    }
-
-    public ContactPage AssertHasPhone()
-    {
-        I.Expect.Exists(".icon-telephone");
-        return this;
-    }
-}
-
-public class SampleTest : FluentTest
-{
-    public SampleTest()
-    {
-         WbTstr.Configure()
-        .UseBrowserStackAsRemoteDriver()
-        .PreferedBrowser().IsChrome()
-        .BootstrapInstance();
-    }
-
-    [Fact]
-    public void CheckForPhoneIcon()
-    {
-        new HomePage(this)
-            .Go()
-            .OpenContactPage()
-            .AssertHasPhone();
-    }
-}
-</code></pre>
 <h3 id="actions">Actions</h3>
 <p>We interchangeable use the terms <code>Action</code> and <code>Command</code> to refer to the same thing. This is because of terminology changes throughout the lifetime of the project.
 Actions are the units of work which manipulate state of the browser or the page.</p>
@@ -389,66 +257,6 @@ I.WaitUntil(() =&gt;
         .Get(<span class="hljs-string">"data-loaded"</span>) == <span class="hljs-string">"true"</span>
 );
 </code></pre>
-<h3 id="assertions">Assertions</h3>
-<h4 id="i-assert-class">I.Assert.Class</h4>
-<p>Assert that an element matching selector has the specified class.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// Has btn-primary class</span>
-I.Assert.Class(<span class="hljs-string">"btn-primary"</span>).Of(<span class="hljs-string">"header"</span>);
-</code></pre>
-<h4 id="i-assert-count">I.Assert.Count</h4>
-<p>Assert that we have a certain count of items matching a selector.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// 1 search bar on page.</span>
-I.Assert.Count(<span class="hljs-number">1</span>).Of(<span class="hljs-string">"#searchBar"</span>);
-</code></pre>
-<h4 id="i-assert-exists">I.Assert.Exists</h4>
-<p>Assert that an element is on the page.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// Element on page</span>
-I.Assert.Exists(<span class="hljs-string">"#searchBar"</span>);
-</code></pre>
-<h4 id="i-assert-false">I.Assert.False</h4>
-<p>Assert that an anonymous function should return false. Use with <code>I.Find</code> to fail tests properly if conditions are not met.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// Element is not a select box</span>
-<span class="hljs-keyword">var</span> element = I.Find(<span class="hljs-string">"input"</span>);
-I.Assert.False(() =&gt; element().IsSelect);
-</code></pre>
-<h4 id="i-assert-text">I.Assert.Text</h4>
-<p>Assert that an element matching selector has the specified text. Works with any DOM element that has <code>innerHTML</code> or can provides its contents/value via text.</p>
-<p>Supports anonymous functions that return <code>true</code> or <code>false</code>.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// Header tag set to Test!</span>
-I.Assert.Text(<span class="hljs-string">"Test!"</span>).In(<span class="hljs-string">"header"</span>);
-
-<span class="hljs-comment">// Content longer than 50 characters</span>
-I.Assert.Text((text) =&gt; text.Length &gt; <span class="hljs-number">50</span>).In(<span class="hljs-string">"#content"</span>);
-</code></pre>
-<h4 id="i-assert-throws">I.Assert.Throws</h4>
-<p>Assert that an <code>Exception</code> should be thrown by the anonymous function. Useful for negative assertions such as testing that something is not present.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// Page has no errors</span>
-I.Assert.Throws(() =&gt; I.Assert.Exists(<span class="hljs-string">".error"</span>));
-</code></pre>
-<h4 id="i-assert-true">I.Assert.True</h4>
-<p>Assert that an anonymous function should return true. Use with <code>I.Find</code> to fail tests properly if conditions are not met.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// Element is a select box</span>
-<span class="hljs-keyword">var</span> element = I.Find(<span class="hljs-string">"select"</span>);
-I.Assert.True(() =&gt; element().IsSelect);
-</code></pre>
-<h4 id="i-assert-url">I.Assert.Url</h4>
-<p>Assert that the browser has the specified Url. If using the string or Uri overloads, the match must be exact.</p>
-<p>Supports anonymous functions that return <code>true</code> or <code>false</code>. Particularly useful on pages that modify the URL via hashtags or other mechanisms.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// At #assert-url on docs</span>
-I.Assert.Url(<span class="hljs-string">"http://fluent.stirno.com/docs/#assert-url"</span>);
-
-<span class="hljs-comment">// Verify we're on SSL</span>
-I.Assert.Url((uri) =&gt; uri.Scheme == <span class="hljs-string">"https"</span>);
-</code></pre>
-<h4 id="i-assert-value">I.Assert.Value</h4>
-<p>Assert that an element matching selector has the specified value. Works with <code>&lt;INPUT&gt;</code>, <code>&lt;TEXTAREA&gt;</code> and <code>&lt;SELECT&gt;</code></p>
-<p>Supports anonymous functions that return <code>true</code> or <code>false</code>.</p>
-<pre><code class="lang-csharp"><span class="hljs-comment">// Dropdown has value of 10.</span>
-I.Assert.Value(<span class="hljs-number">10</span>).In(<span class="hljs-string">"#quantity"</span>);
-
-<span class="hljs-comment">// Value starts with 'M'</span>
-I.Assert.Value((<span class="hljs-keyword">value</span>) =&gt; <span class="hljs-keyword">value</span>.StartsWith(<span class="hljs-string">"M"</span>)).In(<span class="hljs-string">"#states"</span>);
-</code></pre>
 <!-- end -->
         </article>
     </main>
@@ -458,24 +266,6 @@ I.Assert.Value((<span class="hljs-keyword">value</span>) =&gt; <span class="hljs
         <ol>
             <li class="nav-aside_lvl1">
                     <a href="#api">API</a>
-                </li>
-            <li class="nav-aside_lvl2">
-                    <a href="#configuration">Configuration</a>
-                </li>
-            <li class="nav-aside_lvl3">
-                    <a href="#basic-usage">Basic usage</a>
-                </li>
-            <li class="nav-aside_lvl3">
-                    <a href="#configure-browserstack">Configure BrowserStack</a>
-                </li>
-            <li class="nav-aside_lvl3">
-                    <a href="#adding-custom-capabilities">Adding custom capabilities</a>
-                </li>
-            <li class="nav-aside_lvl3">
-                    <a href="#file-based-configuration">File based configuration</a>
-                </li>
-            <li class="nav-aside_lvl2">
-                    <a href="#page-objects">Page Objects</a>
                 </li>
             <li class="nav-aside_lvl2">
                     <a href="#actions">Actions</a>
@@ -530,36 +320,6 @@ I.Assert.Value((<span class="hljs-keyword">value</span>) =&gt; <span class="hljs
                 </li>
             <li class="nav-aside_lvl3">
                     <a href="#i-waituntil">I.WaitUntil</a>
-                </li>
-            <li class="nav-aside_lvl2">
-                    <a href="#assertions">Assertions</a>
-                </li>
-            <li class="nav-aside_lvl3">
-                    <a href="#i-assert-class">I.Assert.Class</a>
-                </li>
-            <li class="nav-aside_lvl3">
-                    <a href="#i-assert-count">I.Assert.Count</a>
-                </li>
-            <li class="nav-aside_lvl3">
-                    <a href="#i-assert-exists">I.Assert.Exists</a>
-                </li>
-            <li class="nav-aside_lvl3">
-                    <a href="#i-assert-false">I.Assert.False</a>
-                </li>
-            <li class="nav-aside_lvl3">
-                    <a href="#i-assert-text">I.Assert.Text</a>
-                </li>
-            <li class="nav-aside_lvl3">
-                    <a href="#i-assert-throws">I.Assert.Throws</a>
-                </li>
-            <li class="nav-aside_lvl3">
-                    <a href="#i-assert-true">I.Assert.True</a>
-                </li>
-            <li class="nav-aside_lvl3">
-                    <a href="#i-assert-url">I.Assert.Url</a>
-                </li>
-            <li class="nav-aside_lvl3">
-                    <a href="#i-assert-value">I.Assert.Value</a>
                 </li>
             
         </ol>
