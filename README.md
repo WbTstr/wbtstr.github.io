@@ -24,7 +24,7 @@ WbTstr is an open-source initaitive from [Mirabeau](https://www.mirabeau.nl/en).
 
 We have the following contributors:
 
-* [@onnovalkering](https://github.com/onnovalkering) 
+* [@ovalkering](https://github.com/ovalkering) 
 * [@lazytesting](https://github.com/lazytesting)
 * [@rickvanschalkwijk](https://github.com/rickvanschalkwijk)
 <!-- end -->
